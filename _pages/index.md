@@ -2,22 +2,22 @@
 layout: defaults/page
 permalink: index.html
 narrow: true
-title: Welcome to Friday Theme
+title: Welcome to The Termi(0) !
 ---
+
+## Who Am I?
+
+Glad you're interested, My name is Vandan Rohatgi and currently an engineering student in the field of Information Technology. 
+You can probably tell that I am into the technical stuff like linux (*hence the name*) and "ethical hacking" (expect a rant about this later). 
+
 
 ## What is it?
 
-{% include components/intro.md %}
+The Termi(0) is the name of my weekly blog where I intend to post blogs about my daily learnings sprinkled with bits and pieces of my opinions and information 
+that may look interesting but is actually useless irl. 
 
-[Here's the full feature list and some quick examples of what it can do.]({{ site.baseurl}}{% link _pages/about.md %})
+[To know more about this blog click me!]({{ site.baseurl}}{% link _pages/about.md %})
 
-## How to use it
-
-This web site is the documentation for the theme and also provides examples of how you can use and modify it. TIt is built using Friday Theme directly from the [GitHub repo](https://github.com/sfreytag/friday-theme) and published to GitHub pages.
-
-[The documentation]({{ site.baseurl }}{% link list/projects.md %}) covers the basics of installing and using it, and is an example of how you could write documentation about your own projects.
-
-[The blog]({{ site.baseurl }}{% link list/posts.html %}) has a bunch of tips about how to use Friday Theme. These show how the blog works, including the tags. There's the three most-recent posts below included below.
 
 <hr />
 

@@ -1,20 +1,20 @@
-- caption: Friday Theme on GitHub
-  href: https://github.com/sfreytag/friday-theme
+- caption: Github
+  href: https://github.com/vandanrohatgi
   icon: entypo/github.svg
 
+- caption: Linkedin
+  href: https://linkedin.com/in/vandan-rohatgi-352376180
+  icon: entypo/linkedin.svg
+
 - caption: Stack Overflow
-  href: https://stackoverflow.com
+  href: https://stackoverflow.com/users/11768314/vandan-rohatgi
   icon: icons/stackoverflow.svg
 
-- caption: Facebook
-  href: https://www.facebook.com
-  icon: entypo/facebook.svg
-
 - caption: Twitter
-  href: https://www.twitter.com
+  href: https://www.twitter.com/Mercifulwolf2
   icon: entypo/twitter.svg
 
-- caption: London
-  href: https://www.google.co.uk/maps/place/London/@51.528308,-0.3817765,10z/data=!3m1!4b1!4m5!3m4!1s0x47d8a00baf21de75:0x52963a5addd52a99!8m2!3d51.5073509!4d-0.1277583
+- caption: Delhi, India
+  href: https://goo.gl/maps/XcEKLbimsHGSmZ147
   icon: entypo/location-pin.svg
 
