@@ -3,6 +3,7 @@ title: How to write code, with syntax highlighting
 tags:
   - syntax highlighting
   - code
+image: /images/Firefox_wallpaper.png
 ---
 
 This post demonstrates both inline code and code blocks with syntax highlighting.
