@@ -8,7 +8,7 @@ title: Welcome to The Termi(0) !
 ## Who Am I?
 
 Glad you're interested, My name is Vandan Rohatgi and currently an engineering student in the field of Information Technology. 
-You can probably tell that I am into the technical stuff like linux (*hence the name*) , Cyber Security or "ethical hacking" (expect a rant about this later). 
+You can probably tell that I am into the technical stuff like linux (*hence the name*) , Cyber Security or ethical "hacking" (expect a rant about this later). 
 
 
 ## What is it?
