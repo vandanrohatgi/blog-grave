@@ -6,8 +6,8 @@ title: Py-IDS
 
 This is the infamous "second" project which was responsible for affecting and effectivly messing up my first project. But I would be lying if I said that it is not a good one. [Have A look!](https://github.com/vandanrohatgi/Py-IDS)
 
-![](https://github.com/vandanrohatgi/Py-IDS/blob/master/examples/attack_detect.gif)
-
+<img src="/images/attack_detect.gif" />
+ 
 So Py-IDS stands for Python Intrusion Detection System (*mouthfull isn't it?*). As the the name suggests it is an intrusion detection system made with python which can be used to alert the user incase any type of network attack is launched against them. I will admit that it is not perfect and gives out false positives time to time but I still like it because It reeks of my time and effort (*you are entitled to your opinion though*). The fact that I made something and it works (even if not perfectly) is a joy in its own right to me. I may not sound like it **but** trust me when I say that I am 21 years old, you judging potato!
 
 ## Tech Stack
