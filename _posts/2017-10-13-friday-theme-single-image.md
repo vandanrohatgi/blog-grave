@@ -15,7 +15,7 @@ Here's how to put a single image into a post, using a Bootstrap 4 card. This sho
 The card allows a caption to be aligned with the photo, and the card classes contain a `card-img-top` that ensures the image is responsive within the grid.
 
 <div class="card mb-3">
-    <img class="card-img-top" src="https://drscdn.500px.org/photo/127767019/q%3D80_m%3D1500/v2?webp=true&sig=dd1fa4580c459472969cd4992068922f311f12cf263cf08b39615cfc1812286b"/>
+    <img class="card-img-top" src="https://github.com/vandanrohatgi/Py-IDS/blob/master/examples/attack_detect.gif?raw=true"/>
     <div class="card-body bg-light">
         <div class="card-text">
             The Peak District on a mosty morning.
