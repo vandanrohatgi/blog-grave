@@ -1,3 +1,6 @@
+- caption: E-mail
+  href: mailto:vandanrohatgi@gmail.com
+  icon: entypo/email.svg
 - caption: Github
   href: https://github.com/vandanrohatgi
   icon: entypo/github.svg
