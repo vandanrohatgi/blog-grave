@@ -1,24 +1,14 @@
 ---
 layout: defaults/page
 permalink: about.html
-narrow: true
-title: More about The Blog
+narrow: false
+title: More about The Me
 
 ---
 
-# WHY?!
-I made this blog with the sole purpose of helping others understand concepts and give back to the community **all the while** documenting my learnings as a by-product.
+Hello there! I am an engineering undergraduate in the field of Information Technology from India. I am aiming to make a career in cyber security, penetration testing to be more specific. I love solving puzzles and breaking stuff open. I am neither a very outspoken person nor a web developer and I am wayyy out of my comfort zone right now. Other than that everything else about me can be found on my [linkedin](https://linkedin.com/in/vandan-rohatgi-352376180). Heres me on the left side dropping swag like its nothing. (*even though my friends think otherwise...*)
 
-# WHAT?!
-You can expect content on topics such as Technology, Web application attacks, Networking, CTFs, Reverse Engineering, Walkthroughs or whatever I am feeling like.
-So you are basically at the mercy of my whims(*muahahaha*). Just kidding, Please do suggest me topics that you want to see.
-
-# WHEN?!
-While the content can be a bit irregular in terms of topics, what you **can** rely on is that I am going to do my best at releasing a blog per week (mainly on sundays).
-
-This Blog is made with [jekyll].
-
-For those who are extra curious, the theme used is [friday]. 
+Well hopefully sometime in future I will learn some web development and maybe make this place a little bit more customized. I was able to make this blog because of the beginner friendly framework known as [jekyll] and the theme used is [friday].  
 
 [jekyll]: https://jekyllrb.com/
 [friday]:https://github.com/sfreytag/friday-theme
