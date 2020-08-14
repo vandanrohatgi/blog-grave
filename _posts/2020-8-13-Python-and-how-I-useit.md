@@ -10,7 +10,7 @@ Welcome to the first blog! I had a hard time figuring out what I should my first
 <!--more-->
  that has already been done way too many times by way too many people. What **I** am going to do is tell you about how I use python in my daily life as a student aspiring to be a Programmer/ Penetration Tester/ Red Teamer/ Threat Hunter/ Ethical Hacker/ CTF player ... you get the idea.
 
-![](/images/python.png)
+<img src="/images/python.png" height="400" />
 
 ## My Experience
 
