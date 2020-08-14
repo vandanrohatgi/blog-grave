@@ -6,7 +6,7 @@ tags:
 image: /images/python.png
 ---
 
-Welcome to the first blog! I had a hard time figuring out what I should my first blog be, then I just decided that lets just do something I am comfortable with. So the first thing that came to my mind was python but I didnt want to just write a giant tutorial documenting every data structure, every concept and every trick, no... 
+Welcome to the first blog! I had a hard time figuring out what should my first blog be, then I just decided that lets just do something I am comfortable with. So the first thing that came to my mind was python but I didnt want to just write a giant tutorial documenting every data structure, every concept and every trick, no... 
 <!--more-->
  that has already been done way too many times by way too many people. What **I** am going to do is tell you about how I use python in my daily life as a student aspiring to be a Programmer/ Penetration Tester/ Red Teamer/ Threat Hunter/ Ethical Hacker/ CTF player ... you get the idea.
 
@@ -148,7 +148,7 @@ As I stated earlier I still am quite the noob so I have to lookup shellcodes on 
 
 ## The End
 
-Python has been a bane and boon to me. Bane because it is able to satisfy each and every bit of my requirements with minimal effort so that I can focus on the logic part rather than staring at the documentation for hours. But this advantage is also the reason for which I think it has stopped my growth since python can do so many things that I don't get a reason/motivation to try out new things like Golang. I tried Java **once** and it was enough to make a grown man cry. 
+Python has been a bane and boon to me. Boon because it is able to satisfy each and every bit of my requirements with minimal effort so that I can focus on the logic part rather than staring at the documentation for hours. But this advantage is also the reason for which I think it has stopped my growth since python can do so many things that I don't get a reason/motivation to try out new things like Golang. I tried Java **once** and it was enough to make a grown man cry. 
 
 That is about all I can fit in one blog. Connect with me on linkedin for updates on my future blogs and maybe if enough people want it then I will setup a rss feed. See Ya!
 
