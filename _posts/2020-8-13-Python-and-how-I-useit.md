@@ -3,14 +3,14 @@ title: Python... & How I Use It
 tags:
   - python
   - programming
-image: /images/python.png
+image: /images/python&howiuseit/python.png
 ---
 
 Welcome to the first blog! I had a hard time figuring out what should my first blog be, then I just decided that lets just do something I am comfortable with. So the first thing that came to my mind was python but I didnt want to just write a giant tutorial documenting every data structure, every concept and every trick, no... 
 <!--more-->
  that has already been done way too many times by way too many people. What **I** am going to do is tell you about how I use python in my daily life as a student aspiring to be a Programmer/ Penetration Tester/ Red Teamer/ Threat Hunter/ Ethical Hacker/ CTF player ... you get the idea.
 
-<img src="/images/python.png" height="400" />
+<img src="/images/python&howiuseit/python.png" height="400" />
 
 ## My Experience
 
@@ -79,11 +79,11 @@ Ps: If you see errors like no distribution of that name is found, it is probably
 
 If you haven't already stalked me on github yet, you will not be surprised to find that all my "projects" (I say it like that because most of them are just a  product of terrible ideas and even worse implementation) are written in python.
 
-![](/images/projects.png)
+![](/images/python&howiuseit/projects.png)
 
  And I was able to make them because of comprehensive documentation and a large community devoted to python. Never have I ever needed to go and ask someone in person about something I didn't understand. And thats why I recommend python to beginners for any task they want to perform because python is so high level that you don't need to worry about minute details. When you reach a certain level of expertise and want to customize even more than python is able to provide then you can move on to something like C or C++. Although you can jump straight into the deep section and try low level languages but the learning curve might make you give up half-way and thats a *no bueno*. 
 
-## A Basic Server
+<h2><a id="server">A Basic Server</a></h2>
 
 Many times it has happened that I had transfer something from my pc to something like my mobile phone or maybe deliver a payload to a machine I am hacking (*legally ofcourse*) so what do I do? Get up and search for my data cable? pfftt.. NO! Install or open a 3rd party software? Nahhh... wrong again! I just turn my pc into a basic web server and download the file I want to transfer wherever I want. Did I mention that it takes just one line in the terminal to do so? Here is how:-
 
