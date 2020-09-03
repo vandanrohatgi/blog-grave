@@ -10,7 +10,7 @@ So let me just start out by saying that this was one of those box which were des
 
 <!--more-->
 
-<img src="/images/mrrobot/info1.png" />
+<img src="/images/mrrobot/info.jpeg" />
 
 Kicking off with a nmap scan
 {%highlight bash%}
