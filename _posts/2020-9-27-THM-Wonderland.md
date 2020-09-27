@@ -8,6 +8,8 @@ tags:
 
 Do you see that? Those things on the floor? Yeah those are the broken pieces of my schedule this week. Such a messy week. I started an internship and my days of solving tryhackme and hackthebox machines whole day are pretty much over. So now I am just trying to squeeze all the time I can just for one machine and its writeup. I used to do about 3 machines per week and that streak has been burned and casted into the void of darkness and pain. Enough of babbling about me. Lets dive into the writeup. 
 
+<!--more-->
+
 <img src="/images/wonder/alice.jpeg" width="1000" height="500"/>
 
 Usual nmap scan shows the usual results.
