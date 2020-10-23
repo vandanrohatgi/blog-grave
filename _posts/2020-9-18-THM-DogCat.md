@@ -3,14 +3,14 @@ title: Try Hack Me DogCat Write-Up
 tags:
 - tryhackme
 - writeup
-image: /images/dog/info.png
+image: /images/dogcat/info.png
 ---
 
 Apart from the the name I really can't think of anything thats wrong with this box. It was a really fun box. I think I learnt the most during the initial foothold and after that the user,root and docker escaping was just like a CTF puzzle. The main thing I learnt in this room was the use cases of Local File inclusion. Before I used to think that LFI was just a vulnerability to read some files on a system. Turns out I was dead wrong and hackers can really turn even the the simplest of the bugs to a fully fledged PWN. Lets see what I am talking about.
 
 <!--more-->
 
-<img src="/images/dog/info.png" height="400" width="700"/>
+<img src="/images/dogcat/info.png" height="400" width="700"/>
 
 Starting with the usual nmap scan.
 
@@ -28,13 +28,13 @@ PORT   STATE SERVICE
 
 So like most of the cases again we a ssh server and a web server. Browsing to the web page...
 
-<img src="/images/dog/dog.png">
+<img src="/images/dogcat/dog.png">
 
 As much as I would love to keep clicking the dog and cat buttons to see some chonky bois we have a room to complete. Right off the bat I can see a LFI vulnerability in the view parameter. So I try `view=/../../../../../../../etc/passwd` but it says only dogs and cats are allowed. 
 
 Next I leave testing the LFI and do some more enumeration. Here is the output for Dirbuster.
 
-<img src="/images/dog/dirb.png" />
+<img src="/images/dogcat/dirb.png" />
 
 Nothing interesting apart from the "flag.php" file. Browsing to flag.php doesn't show any output. After playing around some more with the view parameter I find that
 - It automatically appends .php extention to every file I give
@@ -43,13 +43,13 @@ Nothing interesting apart from the "flag.php" file. Browsing to flag.php doesn't
 
 Here is an error which reveals some information 
 
-<img src="/images/dog/error.png">
+<img src="/images/dogcat/error.png">
 
 It was time to do some google-fu on LFI. I find this [awesome article](https://medium.com/@Aptive/local-file-inclusion-lfi-web-application-penetration-testing-cc9dc8dd3601) which will give us the necessary information. So I come across a lot of new stuff like php wrappers. 
 
 After trying some of the things given in the article I finally find a method that worked. We can use the php filter to get a resource from the machine and it will spit out its contents in base64 form. Lets try displaying a file we know already exists.
 
-<img src="/images/dog/b64.png" width="1000">
+<img src="/images/dogcat/b64.png" width="1000">
 
 When we decode it's content.
 
@@ -100,7 +100,7 @@ Since now we are able to read any file we can read the apache log files too. Wha
 
 First lets see if we can read the log files using the php filter and the ext parameter we found.
 
-<img src="/images/dog/logs.png"/>
+<img src="/images/dogcat/logs.png"/>
 
 So that was a success. Next I try introducing some php code in one of the headers to download a file from out server on the target machine. We will fire up a python server and transfer a php-reverse-shell.php (you can find it on pentest monkey) file onto the machine.  
 
@@ -116,7 +116,7 @@ No need to fire up Burp suite, the developer tools in firefox are powerfull enou
 
 Here is how.
 
-<img src="/images/dog/contaminate.png" width="1000">
+<img src="/images/dogcat/contaminate.png" width="1000">
 
 Send the request and when you load the access logs you wont see the php code but trust me it is getting executed. To see the proof start a python server in the directory where your php-reverse-shell.php file is stored. When you again access the log files you should see a request in your server for the file. something like this.
 
