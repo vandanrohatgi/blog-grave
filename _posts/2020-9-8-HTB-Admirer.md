@@ -2,7 +2,7 @@
 title: Hack the Box Admirer Write-Up
 tags:
 - writeup
-- hackthbox
+- hackthebox
 image: /images/admirer/info.png
 ---
 

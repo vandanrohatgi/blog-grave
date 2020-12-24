@@ -15,7 +15,7 @@ You can probably tell that I am into the technical stuff like linux (*hence the 
 The Termi(0) is the name of my weekly blog where I intend to post blogs about my daily learnings sprinkled with bits and pieces of my opinions and information that may look interesting but is actually useless irl. 
 
 ## WHY?!
-I made this blog with the sole purpose of helping others understand concepts and give back to the community **all the while** documenting my learnings as a by-product.
+Because my memory is terrible and there are too many things that I learn so I just write it down to make it last longer. Think of this site as a glorified notepad.
 
 ## WHAT?!
 You can expect content on topics such as Technology, Web application attacks, Networking, CTFs, Reverse Engineering, Walkthroughs or whatever I am feeling like.

