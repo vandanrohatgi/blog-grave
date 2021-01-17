@@ -22,7 +22,7 @@ You can expect content on topics such as Technology, Web application attacks, Ne
 So you are basically at the mercy of my whims(*muahahaha*). Just kidding, Please do suggest me topics that you want to see.
 
 ## WHEN?!
-While the content can be a bit irregular in terms of topics, what you **can** rely on is that I am going to do my best at releasing a blog per week .
+While the content can be a bit irregular in terms of topics, what you **can** rely on is that I am going to do my best at releasing a blog per week . (Update: well that went down the drain quick)
 
 <hr />
 

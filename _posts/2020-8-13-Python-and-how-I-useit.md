@@ -1,7 +1,6 @@
 ---
 title: Python... & How I Use It
 tags:
-  - python
   - programming
 image: /images/python&howiuseit/python.png
 ---
