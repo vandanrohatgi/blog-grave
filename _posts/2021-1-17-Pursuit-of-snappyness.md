@@ -32,7 +32,9 @@ Well that is... very average. Signal strength is measured in decibels. Lower the
 
 Going near the router with the app open resulted in a increase in signal and now was at about `-33 db`. The boost was double in strength. Well that confirms tip I read. It said to keep the router where you work OR just in the center of the house. As long as the router is in line of sight, it should work well. Keeping the router above the ground and away from electronics may be a good idea.
 
-I also read about the position of the antenna of the router. Keeping the them horizontal leads to better upwards signal (floors) and vertical position leads to better horizontal coverage. So I made one antenna horizontal and the other one vertical. Just to get maximum coverage.
+I also read about the position of the antenna of the router. Keeping the them horizontal leads to better upwards signal (floors) and vertical position leads to better horizontal coverage. So I made one antenna horizontal and the other one vertical. Just to get maximum coverage. 
+
+Just doing this improved my signal strength by a few decibels.
 
 ### Lesson 2: Channel your Power!
 
@@ -55,6 +57,8 @@ We can see lots of information here. Lets go one by one:
 - Check in "Band" opttion if there is a 5 Ghz option. 5Ghz is mainly for high speeds but low coverage. The 2.4 Ghz option is to cover more area but lesser speeds. In my case I only had 2.4Ghz available.
 - The "chanel width" is what it sounds like. Lower the width of the channel, more stable it is because it will interfere less with other channels. Higher the channel width better the performance. In my case it already had the best option selected.
 - Next we move to channel number. We can see that the firmware on my router does not allow me to change it. If yours does, then you can change it to a better one according to the wifi analyzer app.
+
+Since my router did not allow me to change the channel manually, I found that a simply restarting the router forced it to choose the best channel for me. 
 
 ### Lesson 3: Domain Name Servers...
 
@@ -82,7 +86,7 @@ dig @1.1.1.1 vandan.tech
 ;; MSG SIZE  rcvd: 104
 {%endhighlight%}
 
-Thats better. Now shaving off a few miliseconds may not bring about huge changes in your life but hey each and every drop counts.
+Thats better. Now shaving off a few milliseconds may not bring about huge changes in your life but hey each and every drop counts.
 
 <img src="/images/snappyness/dns.png" width="1000">
 
@@ -115,5 +119,5 @@ It didn't work. Looking further I found that there was the word "dsl" in my id I
 I enter the details and applied the changes. Voilla! I was able to get my connection back. Whew... Dodged that bullet. 
 
 ### Ending notes
-These are all the things I did on my part. While I was not able to get any significant boosts, I was however able to learn a lot from it. If you have done all that you can do and still are not getting the speeds that were promised, it is time have a very difficult conversation with your ISP or just change to another one. 
+These are all the things I did on my part. By just doing all this, I was able to get maximum speeds that I was promised and I was able to learn a lot from it (Remember that, just connecting to the LAN with an ethernet cable will almost always improve your internet speeds. Wired connection >> wireless connection). If you have done all that you can do and still are not getting the speeds that were promised, it is time have a very difficult conversation with your ISP or just change to another one. 
 
