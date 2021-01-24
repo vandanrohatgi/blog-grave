@@ -1,7 +1,7 @@
 ---
 title: Hack the Box OpenKeys Writeup
 tags:
-- htb
+- hackthebox
 - writeup
 image: /images/openkeys/info.png
 ---
