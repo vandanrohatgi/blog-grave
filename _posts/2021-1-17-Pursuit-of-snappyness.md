@@ -54,7 +54,7 @@ Next you will see a login page. Enter the creds. Again this varies from router t
 
 We can see lots of information here. Lets go one by one:
 
-- Check in "Band" opttion if there is a 5 Ghz option. 5Ghz is mainly for high speeds but low coverage. The 2.4 Ghz option is to cover more area but lesser speeds. In my case I only had 2.4Ghz available.
+- Check in "Band" option if there is a 5 Ghz option. 5Ghz is mainly for high speeds but low coverage. The 2.4 Ghz option is to cover more area but lesser speeds. In my case I only had 2.4Ghz available.
 - The "chanel width" is what it sounds like. Lower the width of the channel, more stable it is because it will interfere less with other channels. Higher the channel width better the performance. In my case it already had the best option selected.
 - Next we move to channel number. We can see that the firmware on my router does not allow me to change it. If yours does, then you can change it to a better one according to the wifi analyzer app.
 
