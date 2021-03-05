@@ -151,9 +151,9 @@ Now if you want move any files for future or transfer to the host you can just t
 
 You can get multiple shells on the same container. Just open another terminal and use `docker exec -it container_name bash`. "exec" is used to run a command inside a running container. 
 
-**Update** I recently experimented with using tmux (terminal multiplexer). You may have already heard of it since it is pretty popular. It allows you to split your teminal into many parts. I found it realy good, since I don't have to go back and forth between multiple terminals. 
+**Update** I recently experimented with using tmux (terminal multiplexer). You may have already heard of it since it is pretty popular. It allows you to split your terminal into many parts. I found it really good, since I don't have to go back and forth between multiple terminals. 
 
-You can just install it using `sudo apt install tmux`. One thing I did find annoying was the default configrations on it. [Here's the fix for that](https://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/)
+You can just install it using `sudo apt install tmux`. One thing I did find annoying was the default configurations on it. [Here's the fix for that](https://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/)
 
 Follow the above guide and you are golden!
 
