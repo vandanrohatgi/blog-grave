@@ -94,7 +94,7 @@ Lets try listing all the tables in this database.
 
 If we perform just a basic sql injection and report the issue it wouldn't be half as fun or maybe the client may even say that there is nothing sensitive inside the table and you are worthless and why are you even here (maybe I exaggerated a bit). But the real fun begins when we read data from other tables or maybe even escalate the sql injection to a full blown RCE.
 
-First lets find the version of the database using the `@@version` query.
+First lets find the version of the database using the `@@version` query. Similarly You can use `select user(),database();` to find the database and user names.
 
 <img src="/images/b2bsql/version.png" width="500">
 
@@ -228,6 +228,64 @@ One thing to be noticed is that all the injection here made use of "union" opera
 <img src="/images/b2bsql/order2.png" width="500">
 
 When I didn't get any error that means we have found the number of columns.
+
+## Misconfigured Permissions
+
+If by chance there was even a small misconfiguration in the user permissions the malicious user may be able to delete/update/drop tables, read/write external files on the server, or just straight up shut everything down. 
+
+I tried achieving RCE using sql injection but I found it very unrealistic with just the default configurations. Lets list them:
+
+- Firstly, the current user should have all the privileges on all the databases. Normally developers would only allow the user to have access to the database in use. So unless the developers used the root account to run the db on web server. 
+
+- Second, The DB I am using (Mysql 5.7.33) on giving a query like 
+
+`select "<?php system($_GET['c']); ?>" into outfile "/var/www/html/shell.php";`
+
+  Gives an error that the web server directory was not writable. And the dev would have to explicitly go and change the settings so that the web directory is writable.
+
+Same thing  was found during reading random file, you can use:
+
+`select load_file('/etc/passwd');`
+
+Will return a NULL, if you have not configured mysql to read from a directory.
+
+All this is not to say that it cannot be done. I have read blogs about these techniques working once on phpmyadmin. So every software will have different default configurations. 
+
+Finally a simple `shutdown;` as expected shutdown the server. But a hacker can do a lot more interesting things than that, unless they just want hit the financial side of things. (monetary and reputational loss).
+
+## Patching 
+
+To fix these issues I found that just basic casting the input to the expected type fo input got rid of many issues. For example In our case there was an injection in the "id" parameter. Now if I just cast the input to integer type, the injection was gone.
+
+Change:
+
+`$id=$_GET['id];`
+
+To
+
+`$id=$_GET['id'];`
+`$intid=(int)$id;`
+
+Now using 'intid' will remove most of the injection because they contain characters other than integers. This is what I believe the next technique does automatically.  
+
+Prepared Statements
+
+This method is the most popular way to get rid of injections for a reason. Unless the developer creates some custom functions which may have weaknesses, there shouldn't any issue.
+
+prepared statements look something like:
+
+{%highlight php%}
+$sql="Select name from fruits where id=?";
+$stmt=$conn->prepare($sql);
+$stmt->bind_param("i",$id);
+$stmt->execute();
+$result=$stmt->get_result();
+$row=$result->fetch_all();
+{%endhighlight%}
+
+The "i" in this line `$stmt->bind_param("i",$id);` is used to tell about the expected type of input (integer in our case).
+
+After some testing with this, I was not able to perform any kind of injection. To conclude, there is not any reason I was able to see that the devs would not use prepared statements.
 
 ## Conclusion
 
