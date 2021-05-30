@@ -8,6 +8,10 @@ Hello there! Are you also an aspiring penetration tester/red teamer using a budg
 
 <!--more-->
 
+### Update!
+
+I created a [Dockerfile and some scripts](https://github.com/vandanrohatgi/Pentest-with-docker) to spin up new kali docker images on the fly which have essential software already installed. Credits to [this article](https://codefresh.io/docker-tutorial/build-docker-image-dockerfiles/). I also definitely recommend [this website](http://play-with-docker.com) to learn all about dockers!
+
 <img src="/images/docker/docker.png">
 
 Many of the people I have seen in the security field usually use either a VM or dual boot a separate OS for their security tools, testing environments etc. Mainly this is done to keep things organized and most importantly for example if they ran a malicious script they found on internet with root privileges their main system will be safe. 
