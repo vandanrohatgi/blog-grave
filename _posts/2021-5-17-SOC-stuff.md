@@ -1,7 +1,7 @@
 ---
 title: SOC Stuff
 tags: 
-- Blue Team
+- blueteam
 image: /images/soc/info.jpg
 ---
 
