@@ -655,4 +655,258 @@ Security center event/alerts can be used as triggers for azure workflow to perfo
 
 ## Azure Sentinel
 
-Azure Sentinel
+Azure Sentinel is a cloud based SIEM (security information and event management) tool. It can:
+
+-  Collect cloud data: To analyze security events it can collect data from microsoft solutions like Office365, active directory and windows defender firewall, non microsoft solution like AWS cloudtrail, Citrix,Sophos firewall, VMware carbon black cloud etc. Other sources which export data in CEF (common event format), syslog, REST APIs data can also be digested.
+
+- Detect Threats: We can use either pre built rules for detecting malicious activity or make our own sutom rules.
+- Investigate and respond: It provides information regarding an incident. It can show the events and related info in the form of a graph for bettwr investigation.
+
+<img src=sentinel.png>
+
+Automatic reponses can also be setup for alerts. It has all the features that any other SEIMs have like ticket system for alerts, sending automated messages via teams messages or emails with option to "block" or "ignore". "Block" optin to block the IP address that is related to the event and disable the user in Azure AD. "Ignore" closes the alert ana no further action is required.
+
+## Azure key vault
+
+a centralized cloud service for storing an application's secrets(passwords, encryption keys and certificates) in a single, central location. It provides secure access to sensitive information by providing access control, monitoring and logging capabilities.
+
+It can also work with [HMS](https://en.wikipedia.org/wiki/Hardware_security_module) to store sensitive data. And like any other service in azure it can be integrated with other services in azure. 
+
+These keys and secrets can be accessed using azure powershell, cli, cloudshell(A browser based shell to access microsoft azure and its resources) or any other programmin language of choice.
+
+Then we follow an exercise on creating a secret in the vault and accessing it from azure portal and then from azure cloudshell. Afteeer I was done I decided to clean up the vault myself instead of the autoremoval that happens when a sandbox ends.
+
+This was a great exercise because you can do all sorts of toher stuff apart from handling the keyvault. I tried findin info about my account.
+
+I read through the `az -h` and `az keyvault -h` to navigate .
+
+<img src=accinfo.png>
+
+{%highlight text%}
+az keyvault delete --name my-keyvault-123 --subscription "Concierge Subscription"
+{%endhighlight%}
+
+You can do other things too but this much extra activity was enough for me.
+
+## Azure Dedicated hosting
+
+Normally all the hardware is shared with other customers (workload is not affected) and is managed by azure. Due to comliance reasons orfanizations may need to have the whole hardware to themselves.
+
+Deicated hosts gives us full control over the whole infrastructure be it the procesors, VM sizes, visibility, etc. These deicated serves are hosted in a host group (bunch of dedicated servers in a group) and then VMs are deployed across them.
+
+
+# Secure Networks on Azure
+
+Defense in depth: The objective of defense in depth is to protect information and prevent it from being stolen by those who aren't authorized to access it.
+
+Layers of defense in depth:
+
+<img src=did.png>
+
+- Physical: protecting hardware in the datacenter
+- Identity and access: access to the infrastructure, SSO and MFA, audit changes and events
+- Perimeter: Protection from Ddos and other attacks using perimeter firewalls
+- Network: limit communication between resources, deny by default(block all inbound and outbound traffic that has not been expressly permitted by firewall policy)
+- Compute: secure access to VMs, implement endpoint protection and keep systems patched and up-to-date
+- Application: ensure apps are free of vulnerabilities, storing secrets in a secure storage, security as a requirement in development process
+- Data: ensure data is properly secured
+
+
+Security Posture: Your security posture is your organization's ability to protect from and respond to security threats. It is defined using the CIA triad. 
+
+(A fun talk I had with some of my peers from security was about the order of importance of the elements of the CIA triad. I decied to go with AIC. So according to me Availability > Integrity > Confidentiality. Most of them said ACI)
+
+[14 OCt 2021]
+
+## Azure Firewall
+
+A Cloud based stateful (analyzes context of network connection )firewall that protects your azure resources.
+
+<img src=firewall.png>
+
+It uses azure threat intelligence to allow or block traffic, provides a monitoring service(performing metrics), has automatic scaling etc
+
+WE can whitelist domain names for access from the subnet, create network rules (ports, destination ets). Azure Application Gateway also provides a firewall that's called the web application firewall (WAF). WAF provides centralized, inbound protection for your web applications against common exploits and vulnerabilities. Azure Front Door and Azure Content Delivery Network also provide WAF services.
+
+## Ddos Attacks
+
+Ddos is when massive amounts of network requests/connections are made on a server to exhaust its resources and hence make it slow/inoperable. 
+
+<img src=dos.png>
+
+Dos protection is necessary because it can harm your business. Another reason (which I think is really cool) is that when you have azure autoscaling, it autoscales your infra according to rate of incoming requests, now since the requests made in the attack is high it results in increased costs for resources.
+
+Azure Ddos protection also helps prevent volumetric attacks, protocol attacks (vulnerability in protocols) and Application layer attacks (think a web application attack)
+
+Network security groups: (we talked about this above) is like an internal firewall with rules for inbound and outbound requests.
+
+NSG rules:
+- Name
+- priority: number between 100 and 4096. lower the number higher the priority. higher priority rules are processed first.
+- Source/destination: IP(s), resource tags or application sec group
+- protocol: TCP/UDP or any other
+- Direction: inbound or outbound
+- Action: allow or deny
+
+Exercise time! (always fun, im not being sarcastic I genuinly like them)
+
+Here we create a VM, install a web server, configure it to take requests from the internet and then configure NSGs! All thorugh azure cli on cloud shell.
+
+So I completed the whole exercise and again did the cleanup myself.
+
+<img src=stop.png>
+
+And then deallocated the VM in the same way! We can try so many other command regarding VMs. But I just saved the exercise and moved on because time is money and I'm on a budget!
+
+# Azure Identity Services
+
+Authentication: authn
+authorization: authz
+
+## Azure Active Direcotry
+
+Azure Active Directory (Azure AD) provides identity services that enable your users to sign in and access both Microsoft cloud applications and cloud applications. So just like a normal AD which is used for signing in and access management. The difference is azure AD can be accessed globally. azure ad can help detect suspicious sign-ins from unknown locations or devices. 
+
+Each organization on azure AD is known as a tenant. You can connect your existing AD with azure AD using azure ad connect. Azure AD Connect synchronizes user identities between on-premises Active Directory and Azure AD. Azure AD Connect synchronizes changes between both identity systems, so you can use features like SSO, multifactor authentication, and self-service password reset under both systems. Self-service password reset prevents users from using known compromised passwords.
+
+
+
+<img src=tent.png>
+
+functions of azure AD:
+- Authentication: verifying identity for access to resources and apps. also has self service password reset functionality where no IT person is needed, MFA, banned passwords and smart lockout.
+- Single sign-on: Signing in once enables you to access multiple apps and resources and there is no need to login again and again. For example if you login to your microsoft account provided by your company you are able to access all the apps liek microsoft teams, outlook, share point etc.
+- application management
+- device management: azure ad allows for device registration after which device based access controls can be implemented to only known devices.
+
+Azure Ad helps secure external resources like Office365,Azure portal,Saas etc. and internal resources like apps in the corporate network or the intranet.
+
+## Azure conditional Access
+
+Conditional Access is a tool that Azure Active Directory uses to allow (or deny) access to resources based on identity signals. These signals include who the user is, where the user is, and what device the user is requesting access from. a user might not be challenged for second authentication factor if they're at a known location but they might be challenged for a second authentication factor if their sign-in signals are unusual or they're at an unexpected location.
+
+# Cloud Governance
+
+Governance in cyber security is establishing and enforcing a set of rules and policies. 
+
+rbac is role based access control applied to a scope (a resource or a group of resources). RBAC in azure:
+
+<img src=scope.png>
+
+RBAC is implemented through the IAM pane in azure portal:
+
+<img src=iam.png>
+
+## Prevent accidental changes using resource locks
+
+As the name suggests resource locks prevent accidental modification or deletion of resources. For ex while cleaning up unused resources you accidentally delete a resource which was critical to production server... (*Panick screams in the background*)
+
+<img src=lock.png>
+
+Locks can be applied to subscriptions,resource groups orindividual resources. There are 2 types of locks:
+- CanNotDelete: Even the people with right privileges cannot delete a resource until the lock is removed explicitly
+- ReadOnly: this lock is similar to the read-only access control
+
+To prevent accidental deletion of the locks themselves, azure blueprints can be used, which defines a set of resources that are integral to your infrastructure. If these resources are deleted they are automatically replace witha new one tat looks the same. (more on this later...)
+
+PS: Be careful while deleting a resource group. It will delete all the resources that are inside that group. ALL OF THEM!
+
+## Tags
+
+Tagging resources help in organizing your infrastructure. A good organization strategy helps you understand your cloud usage and can help you manage costs. For example tag the resource used for testing purposes and the resources used for production. 
+
+Tags help in:
+- resource management (testing,production)
+- cost management: group resources accosring to tags and caluclate/predict costs
+- operation management: tag critical resources to business. (SLA)
+- security: tag resources based on sensitivity (public, private)
+- Governance and compliance
+- workload optimizationa dn automation
+
+You can also manage tags by using Azure Policy. For example, you can apply tags to a resource group, but those tags aren't automatically applied to the resources within that resource group. You can use Azure Policy to ensure that a resource inherits the same tags as its parent resource group.
+
+## Control and audit your resources by using Azure Policy
+
+Azure Policy is a service in Azure that enables you to create, assign, and manage policies that control or audit your resources. These policies enforce different rules and effects over your resource configurations so that those configurations stay compliant with corporate standards.
+
+A group of policies is known as initiatives. Azure Policy evaluates your resources and highlights resources that aren't compliant with the policies you've created. Azure Policy can also prevent noncompliant resources from being created. Azure Policy comes with a number of built-in policy and initiative definitions that you can use, under categories such as Storage, Networking, Compute, Security Center, and Monitoring.
+
+For ex. you don't want VMs in your environment to exceed a certain size. creating a poliy for will scan all the present VMs , or any in the future. Accepting requests from only certain regions, number of Vms, you can deploy, MFA on accounts with write permissions and so on...
+
+Policy assignment is when we assign the policy to subscription(s), resource groups,or a resource. Policies are inherited by members of the resource group.(members can be also excluded). These policies are evaluated over resources every hour. 
+
+A set of policies are known as initiatives. for ex: Azure Policy includes an initiative named Enable Monitoring in Azure Security Center. Its goal is to monitor all of the available security recommendations for all Azure resource types in Azure Security Center. This initiative includes policies like monitor unencrypted SQL databases, monitor Os vulnerabilities, etc
+
+<img src=policy.png>
+
+## Azure Blueprints
+
+Instead of having to configure features like Azure Policy for each new subscription, with Azure Blueprints you can define a repeatable set of governance tools and standard Azure resources that your organization requires. Each component of a blueprint is known as an artifact.It is possible for artifacts to have no additional parameters (configurations). An example is the Deploy threat detection on SQL servers policy, which requires no additional configuration.
+
+Azure has pre-built blueprints for standards such as ISO 27001. 
+
+## Azure Cloud Adoption framework
+
+(Its late night and this topic is realllyyy boring, just read it from source)
+
+https://docs.microsoft.com/en-us/learn/modules/build-cloud-governance-strategy-azure/9-accelerate-cloud-adoption-framework
+
+[15 Oct 2021]
+
+# Privacy, comliance and data protection in azure 
+
+(Boring alert: The content you are about to read is really really boring. Read it at your own risk.)
+
+compliance means to adhere to a law, standard, or set of guidelines. Regulatory compliance refers to the discipline and process of ensuring that a company follows the laws that governing bodies enforce.
+
+Microsoft's online services build upon a common set of regulatory and compliance controls. Think of a control as a known good standard that you can compare your solution against to ensure security. These controls address today's regulations and adapt as regulations evolve.
+
+The following comliances offered by azure:
+
+<img src=compliance.png>
+
+[For more info about various compliances](https://docs.microsoft.com/en-us/learn/modules/examine-privacy-compliance-data-protection-standards/2-explore-compliance-terms-requirements)
+
+The Microsoft Privacy Statement explains what personal data Microsoft collects, how Microsoft uses it, and for what purposes.
+
+The Online Services Terms (OST) is a legal agreement between Microsoft and the customer. The OST details the obligations by both parties with respect to the processing and security of customer data and personal data
+
+The Data Protection Addendum (DPA) further defines the data processing and security terms for online services. These terms include:
+
+    Compliance with laws.
+    Disclosure of processed data.
+    Data Security, which includes security practices and policies, data encryption, data access, customer responsibilities, and compliance with auditing.
+    Data transfer, retention, and deletion.
+
+The Trust Center is an important part of the Microsoft Trusted Cloud Initiative and provides support and resources for the legal and compliance community.
+
+Clicking on any standard in the zure trust center you see:
+
+    An overview of the standard.
+    Which cloud services are in scope.
+    An overview of the audit cycle and links to audit reports.
+    Answers to frequently asked questions.
+    Additional resources and white papers.
+
+**Azure compliance documentation**
+
+PCI DSS, seeks to prevent fraud through increased control of credit card data. The standard applies to any organization that stores, processes, or transmits payment and cardholder data.
+
+The Azure compliance documentation provides you with detailed documentation about legal and regulatory standards and compliance on Azure.
+
+**Azure government**
+
+It addresses the security and compliance needs of US federal agencies, state and local governments, and their solution providers. Azure Government offers physical isolation from non-US government deployments and provides screened US personnel. To provide the highest level of security and compliance, Azure Government uses physically isolated datacenters and networks located only in the US. Azure Government customers, such as the US federal, state, and local government or their partners, are subject to validation of eligibility.
+
+**Azure china 21vianet**
+
+Azure China 21Vianet is operated by 21Vianet. It's a physically separated instance of cloud services located in China. According to the China Telecommunication Regulation, providers of cloud services, infrastructure as a service (IaaS) and platform as a service (PaaS), must have value-added telecom permits. Only locally registered companies with less than 50 percent foreign investment qualify for these permits. To comply with this regulation, the Azure service in China is operated by 21Vianet, based on the technologies licensed from Microsoft.
+
+It offers almost the same services as the original azure.
+
+# Planning and managing azure costs
+
+TCO calculator: Total cost of ownership is a calculator that can help you compare the cost of running in the datacenter versus running on Azure. Then you review the suggested industry average cost (which you can adjust) for related operational costs. These costs include electricity, network maintenance, and IT labor. You're then presented with a side-by-side report. Using the report, you can compare those costs with the same workloads running on Azure.
+
+<img src=break.png>
+
