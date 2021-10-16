@@ -90,23 +90,25 @@ Advantages of cloud:
 
 <img src="/images/azure/servicemodels.png">
 
-IaaS: Infrastructure as a service is closest to managing physical servers. Cloud provider maintains the hardware but the user maintains everything else like OS and software.
+1. IaaS: Infrastructure as a service is closest to managing physical servers. Cloud provider maintains the hardware but the user maintains everything else like OS and software.
 
 Advantage:
-No Capital required
-agility
-shared responsibility of management
-consumption based model
-no deep technical skills req
-flexible
+- No Capital required
+- agility
+- shared responsibility of management
+- consumption based model
+- no deep technical skills req
+- flexible
 
-PaaS: Platform as service is when the cloud provider manages the resources such as VMs, networking etc (hardware and software) like in case of hosting web applications.
+2. PaaS: Platform as service is when the cloud provider manages the resources such as VMs, networking etc (hardware and software) like in case of hosting web applications.
 
 advantages:
-same as iaas
-SaaS: Software as a Service is when everything is handled by the cloud provider and the user only needs to provide them with data. ex: office 365
+- same as iaas
 
-advantage sam as above
+3. SaaS: Software as a Service is when everything is handled by the cloud provider and the user only needs to provide them with data. ex: office 365
+
+advantage same as above
+
 disadvantage: Since we don't have direct control over the software we may not be able to customize it
 
 
@@ -120,10 +122,10 @@ This is like paas where developers use cloud to build and deploy applications. A
 
 <img src="/images/azure/resources.png">
 
-Resources: the instances of the services we create like sql database or VMS
-resource groups: these services are grouped together in a logical manner. i.e related resources are grouped together
-subscription: Group f user accounts and the resources used by them. Mainly used for monitoring and handling quotas of resources
-management groups: helps manage policies and compliance for various subscriptions
+- Resources: the instances of the services we create like sql database or VMS
+- resource groups: these services are grouped together in a logical manner. i.e related resources are grouped together
+- subscription: Group f user accounts and the resources used by them. Mainly used for monitoring and handling quotas of resources
+- management groups: helps manage policies and compliance for various subscriptions
 
 ## Azure regions, availability zones, and region pairs
 
@@ -153,9 +155,9 @@ Not all regions have this facility of availability zones.
 Availability zones may cost extra to transfer your data between them. Critical applications are one use case of availability zones.
 
 Three categories of azure services that support availability zones:
-zonal services:pin a resource/service (vm, managed disks etc) to specific zone
-zone-redundant services: automatic replication of resource across zones (Sql database)
-Non regional services:services always available and not prone to region wide outages
+- zonal services:pin a resource/service (vm, managed disks etc) to specific zone
+- zone-redundant services: automatic replication of resource across zones (Sql database)
+- Non regional services:services always available and not prone to region wide outages
 
 ## region pairs
 
