@@ -1,5 +1,10 @@
 {
     "cSpell.words": [
         "Kibana"
+    ],
+    "cSpell.ignoreWords": [
+        "accinfo",
+        "seccenter",
+        "servicemodels"
     ]
 }
