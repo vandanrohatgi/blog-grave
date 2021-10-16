@@ -1,8 +1,9 @@
 ---
-title: MS-900 Notes
+title: Microsoft Azure Fundamentals Notes
 tags:
 - blueteam
 - technology
+- notes
 image: /images/azure/info.png
 ---
 
@@ -90,7 +91,7 @@ Advantages of cloud:
 
 <img src="/images/azure/servicemodels.png">
 
-1. IaaS: Infrastructure as a service is closest to managing physical servers. Cloud provider maintains the hardware but the user maintains everything else like OS and software.
+IaaS: Infrastructure as a service is closest to managing physical servers. Cloud provider maintains the hardware but the user maintains everything else like OS and software.
 
 Advantage:
 - No Capital required
@@ -100,12 +101,12 @@ Advantage:
 - no deep technical skills req
 - flexible
 
-2. PaaS: Platform as service is when the cloud provider manages the resources such as VMs, networking etc (hardware and software) like in case of hosting web applications.
+PaaS: Platform as service is when the cloud provider manages the resources such as VMs, networking etc (hardware and software) like in case of hosting web applications.
 
 advantages:
 - same as iaas
 
-3. SaaS: Software as a Service is when everything is handled by the cloud provider and the user only needs to provide them with data. ex: office 365
+SaaS: Software as a Service is when everything is handled by the cloud provider and the user only needs to provide them with data. ex: office 365
 
 advantage same as above
 
