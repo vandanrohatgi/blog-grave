@@ -170,7 +170,7 @@ Updates are rolled out in a region-wise manner to ensure services are always up.
 
 ## Azure resources and Azure Resource Manager
 
-REsources and resource groups defined above. Each resource should be present in only one group and must be present in a group. Resources can be transferred to other groups. resource groups cannot be nested.
+Resources and resource groups defined above. Each resource should be present in only one group and must be present in a group. Resources can be transferred to other groups. resource groups cannot be nested.
 
 If a resource group is deleted all the resources within it are also deleted. Making it easy for testing and removing multiple resources at once. 
 
@@ -185,6 +185,9 @@ A service in azure to create, update, and delete resources in your Azure account
 Roles of resource manager:
 
 - deploy, monitor, manage all the resources as a group
+- manage your infrastructure through declarative templates rather than scripts.
+- Define and deploy your infrastructure through the declarative syntax in Azure Resource Manager templates, rather than through imperative commands.
+
 - prevent accidental deletion and changes by implementing read only access controls
 - Implement role based access control. for ex: developers may have read only access, IT can have settings and admins have full control access
 - manage organization's billing

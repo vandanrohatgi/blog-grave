@@ -5,6 +5,8 @@ narrow: true
 title: Welcome to The Termi(0) !
 ---
 
+<meta name="google-site-verification" content="LNE5RuPJFZOo4G_kAR4u_GYpXiJd8MbCNfV1iaROH1o" />
+
 # Who Am I?
 
 Glad you're interested, My name is Vandan Rohatgi and currently an engineering student in the field of Information Technology. 

@@ -6,5 +6,16 @@
         "accinfo",
         "seccenter",
         "servicemodels"
-    ]
+    ],
+    "[markdown]": {
+        "editor.quickSuggestions": {
+            "other": true,
+            "comments": false,
+            "strings": false
+        }
+    }
+    
 }
+
+
+
