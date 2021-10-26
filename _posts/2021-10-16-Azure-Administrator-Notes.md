@@ -585,7 +585,7 @@ For example, say you work with the external partner rosy. Her organization manag
 
 Giving access to external users is easier in Azure AD B2B than Federation. Federation in Azure is a service which provides SSO. A federation is where you have a trust established with another organization, or a collection of domains, for shared access to a set of resources
 
-<img src=federation.png>
+![](/images/azureadmin/federation.png)
 
 ## Securing resources using RBAC
 
@@ -595,7 +595,7 @@ Each subscription is associated with one Azure AD. when a user is disabled on-pr
 
 scope of a RBAC can be management group, subscription, a resource group, or a single resource. children of parent scope inherit those roles.
 
-<img src=rbac.png>
+![](/images/azureadmin/rbac.png)
 
 RBAC is about assigning a service principle(identity/group/application) a role over a scope. Azure RBAC can have both white list and black list like implementations.
 
@@ -604,7 +604,7 @@ black listing: we can define who cannot have certain access/permissions. (NotAct
 
 RBAc hierarchy:
 
-<img src=hier.png>
+![](/images/azureadmin/hier.png)
 
 All the role assigns and changes are present in the Activity log in Azure.
 
