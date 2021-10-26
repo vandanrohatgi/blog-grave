@@ -396,7 +396,7 @@ There are 3 types of uses in azure ad:
 
 New users can be created using the azure portal.
 
-<img src="/images/azureadmin/newuser.png">
+![](/images/azureadmin/newuser.png)
 
 deleted users can be restored within 30 days and you must be a global admin to make these changes.
 
@@ -534,5 +534,287 @@ types of roles:
 If these roles aren't enough custom roles can be defined.
 
 [22 Oct 2021]
+
 ## Users and groups in Azure AD
+
+Each account is contains information such as roles, access permissions and ownerships. Azure AD contains many roles with their respective permissions attached to them.
+
+- Administrator: has the power to create and manage other users. The role can be global administrator or user administrator
+- member: a user account in azure AD. Normally created when someone new joins an organization
+- guest: users with restricted access to the organization. Guest users sign in with their own work, school, or social identities. used when we need to collaborate with someone outside the organization.
+
+Below is an example of bulk creation of users.
+
+{%highlight text%}
+$invitations = import-csv invitations.csv
+
+$messageInfo = New-Object Microsoft.Open.MSGraph.Model.InvitedUserMessageInfo
+
+$messageInfo.customizedMessageBody = "Hello. You are invited to the Contoso organization."
+
+foreach ($email in $invitations)
+   {New-AzureADMSInvitation `
+      -InvitedUserEmailAddress $email.InvitedUserEmailAddress `
+      -InvitedUserDisplayName $email.Name `
+      -InviteRedirectUrl https://myapps.microsoft.com `
+      -InvitedUserMessageInfo $messageInfo `
+      -SendInvitationMessage $true
+   }
+{%endhighlight%}
+
+The code above reads names and emails from a cvs file and then sends out invites to those users. 
+
+users can be created using `az ad user create` or `New-AzureADUser` and deleted using `az ad user delete` or `Remove-AzureADUser`
+
+Exercise time! SO EXCITED! I will now create a whole new tenant (organization) in azure AD and then create users, add them to groups and create dynamic membership to group and invite guest users.
+
+Role assignment can be done in three ways:
+- direct: as the name suggests. assign the role directly
+- group: assign roles to a group of users in one go.
+- rule-based: define rules to assign roles based on user or device properties. if they meet the requirements then assign group memberships and hence assign roles and if they don't then revoke group membership.
+
+We can add users from other companies (Azure AD B2B) to our azure AD tenant as a guest. we can also add users from one tenant to another tenant in the same account since both tenants are separate.
+
+Users and admin in azure AD can invite others as guests but this feature can be disabled.
+
+**Azure AD B2B**
+
+When an external guest user is invited to our AD there is additional work load of securing and managing that identity. To solve this Azure AD B2B was introduced in which the external organization is responsible to manage those identities.
+
+For example, say you work with the external partner rosy. Her organization manages her identity as rosy@proseware.com. You use that identity for the guest account in your organization's Azure AD. After rosy redeems the guest account invitation, she uses the same identity (name and password) for the guest account as she does for her organization.
+
+Giving access to external users is easier in Azure AD B2B than Federation. Federation in Azure is a service which provides SSO. A federation is where you have a trust established with another organization, or a collection of domains, for shared access to a set of resources
+
+<img src=federation.png>
+
+## Securing resources using RBAC
+
+RBACs ensure only the intended users have access to resources, easier removal of access when people leave. 
+
+Each subscription is associated with one Azure AD. when a user is disabled on-premises AD he/she loses all access to Azure Ad and its resources/subscriptions too.
+
+scope of a RBAC can be management group, subscription, a resource group, or a single resource. children of parent scope inherit those roles.
+
+<img src=rbac.png>
+
+RBAC is about assigning a service principle(identity/group/application) a role over a scope. Azure RBAC can have both white list and black list like implementations.
+
+white listing: we can define who can have access to resources.
+black listing: we can define who cannot have certain access/permissions. (NotActions)
+
+RBAc hierarchy:
+
+<img src=hier.png>
+
+All the role assigns and changes are present in the Activity log in Azure.
+
+[23 OCT 2021]
+
+## Self password reset 
+
+users can reset their password if they are already signed in. But if they aren't usually a request has to be made to the admin. With SSPR(self service reset password) they can bypass the admin and reset the password themselves.
+
+users can reset their password using a code from mobile app, email,mobile phone,office phone or answering security questions (not recommended).
+
+Notifications can be configured to sent out to users and admins when a reset is performed.
+
+SSPRs can be in enabled(SSPR activated for everyone in AD), disabled(disabled for everyone) and selected(enabled only for selected users)
+
+Then I go along an exercise to setup SSPR for group of users and customize the look of login screen when a person tries to sign in.
+
+To finish SSPR go to [https://aka.ms/ssprsetup](https://aka.ms/ssprsetup) to complete the setup.
+
+# Implement and manage storage in Azure
+
+## Configuring storage accounts
+
+Azure storage data can be available from anywhere in the world using HTTP/HTTPS. It also comes with SDKs for famous programming languages such as NET, Java, Node.js, Python, PHP, Ruby, Go, and REST API. Azure storage comes in three categories:
+- storage for VMs: disks(persistent block storage) and files(fully managed file shares in cloud)
+- unstructured data:blobs and data lake store(Hadoop Distributed File System (HDFS) as a service).
+- structured data: tables, cosmos DB and azure SQL DB.
+
+data service in azure:
+
+    Azure Containers (Blobs): A massively scalable object store for text and binary data. for ex: videos, images, streaming audio video , backups and binary data which can be accessed from anywhere using URLs.
+    Azure Files: Managed file shares for cloud or on-premises deployments. CAn be accessed via SMB and URLs using shared access token (SAS) to allow specific access.
+    Azure Queues: A messaging store for reliable messaging between application components.
+    Azure Tables: A NoSQL store for schema-less storage of structured and non-relational data.
+
+following image shows availability of various replication plans:
+
+![](/images/azureadmin/avail.png)
+
+LRS: locally redundant storage is a low cost replication option and offers least durability. useful for storing data in single country for compliance, constantly changing data where storing is not necessary or when the data can be easily reconstructed. stores data in single datacenter.
+
+ZRS: zone redundant storage syncs data across three zones in a region. 
+
+GRS: geo redundant storage replicates data to another region which is hundreds of miles away from primary region. most expensive but most reliable. RA-GRS is read access GRS in which you can read data from secondary region even if the primary region is still working.
+
+GZRS: geo zone redundant storage is the combination of ZRS and GRS. it stores data in three zones of primary region along with another replication to secondary region. used for applications requiring consistency, durability, high availability, excellent performance, and resilience for disaster recovery.
+
+## accessing storage
+
+each object in the storage account can be accessed using unique URLs. if the name of storage account is mystorage account then:
+
+    Container service: //mystorageaccount.blob.core.windows.net
+    Table service: //mystorageaccount.table.core.windows.net
+    Queue service: //mystorageaccount.queue.core.windows.net
+    File service: //mystorageaccount.file.core.windows.net
+
+a url might look like `https://mystorageaccount.blob.core.windows.net/mycontainer/myblob`
+
+and hence storage account name should be globally unique.
+Custom domain names can also be configured:
+
+blobs.contoso.com                contosoblobs.blob.core.windows.net
+
+We can secure these storages by using firewalls and virtual networks. allowing selected public IPs or IP ranges.
+
+[25 Oct 2021]
+
+## Configuring BLOB storage
+
+large amount of unstructured data such as images, videos, backups etc.
+
+The below image shows architecture of blob storage i.e storage account, containers in storage account and the blobs inside them.
+
+![](/images/azureadmin/blob.png)
+
+All blobs must be inside a container. There are 3 public access levels for blobs:
+- private: no read access to public
+- blob: read access to just blobs
+- container: read access to the containers and the blobs inside them
+
+blobs come in three type based on usage:
+- hot (default): for regularly accessed blobs such as images for a website. cost effective for accessing data but costly for storing it.
+- cool: for storing large amount of data which is not accessed very regularly. opposite in terms of cost for hot tier.
+- archive: most cost effective for storing data. retains data for 180 days.
+
+**blob life cycle rules**
+
+the data stored is accessed lesser and lesser as it ages. We can define rules for what happens to data using data lifecycle rules:
+- move data between hot, cool and archive for better performance and cost effectiveness
+- delete blobs at end of lifecycle
+- define rules to be run per day on storage account level
+- apply rules for containers and blobs
+
+Blob object replication: when we copy blob data from one account to another.
+
+![](/images/azureadmin/copy.png)
+
+It can be useful when:
+- moving blobs closer to customer region hence reducing latency
+- optimize data Distribution: process data in one place and distribute just the result data
+- optimize costs: once replicated, data can now be moved to a different tier according to usage
+
+
+blob versioning(maintain a versioning system for blobs every time there is a change) should be enabled to replicate blobs. object replication does not support blob snapshots(A snapshot of a blob is identical to its base blob, except that the blob URI has a DateTime value appended to the blob URI to indicate the time at which the snapshot was taken.).
+
+transfer can only occur between accounts where data is in either hot or cool tier.
+
+A replication policy is to be created when replicating which defines the source and destination account and which blobs have to be replicated.
+
+There are 3 types of blobs:
+- block blobs: data is stored in blocks. this is default option and is suitable for text and binary data like videos, files and images.
+- append blobs: just like block blobs they are also made up of block but they are useful but they are optimized for append operations like logging.
+- page blobs: supports up to 8TB data. useful for regular read and write operations. azure VMs use this for disks.
+
+`blob type cannot be change after creation`
+
+Upload tools for blobs:
+- AzCopy: clit tool copies data to and from Blob storage, across containers, or across storage accounts.
+- Azure storage data movement library: library for moving data between Azure Storage services. azcopy uses this.
+- Azure data factory: supports copying data to and from Blob storage by using the account key, shared access signature, service principal, or managed identities for Azure resources authentications.
+- blobfuse: use blobfuse to access your existing block blob data in your Storage account through the Linux file system.
+- Azure data box disk: helps in transferring massive massive amount of on-premises data to azure blocks when uploading it would be unrealistic. Copy your data to SSDs and then ship em to microsoft to be uploaded to blobs.
+- azure import/export: opposite of box disk. export large amounts of data from your storage account to hard drives that you provide and that Microsoft then ships back to you with your data.
+
+blob pricing factors:
+- performance tiers: hot, cool, archive
+- data access cost: for cool and archive costs is according to per gigabyte read.
+- transaction costs
+- geo replication data transfer costs
+- outbound data transfer costs: cost for bandwidth for data going out of azure
+- changing storage tier: changing cool to hot costs as much as reading all data in storage account . changing hot to cool (changes take place immediately) costs as much as writing all data inside the storage account.
+
+## configuring storage security
+
+security options in azure storage:
+- all the data is stored in automatically encrypted with storage service encryption (SSE)
+- authentication and authorization using Azure AD and RBAC
+- data in transit is protected by HTTPS and SMB 3.0 protocols.
+- OS and data disks used by Azure virtual machines can be encrypted using Azure Disk Encryption.
+- give specific access using SAS(shared access signature) tokens.
+
+authorization can be implemented on storage using Azure AD, SAS tokens, share keys, anonymous access
+
+## SAS tokens
+
+SAS URIs gives limited time access to specific storage resources (blobs, files, Queues, tables). helps in giving access to resource without giving away the storage account keys(generated when storage account is created, used for accessing storage account via shared key authorization). Only used for giving read and write permissions.
+
+Stored access policy: these are policies you can define for SAS . use a stored access policy to change the start time, expiry time, or permissions for a signature, or to revoke it after it has been issued.
+
+![](/images/azureadmin/sas.png)
+
+- IP or IP ranges can be defined for accepting SAS requests.
+- protocol can be defined for accepting SAS requests. (like only accept HTTPS requests)
+
+`https://myaccount.blob.core.windows.net/?restype=service&comp=properties&sv=2015-04-05&ss=bf&srt=s&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https &sig=F%6GRVAZ5Cdj2Pw4txxxxx`
+
+- The URI of the resource is `https://myaccount.blob.core.windows.net/?restype=service&comp=properties`
+- sv is storage service version
+- ss=bf tells that sas applies to blob and file services.
+- srt=s The SAS applies to service-level operations.
+- st is for start time in UTC
+- se is expiration time in UTC
+- sr=b tells resource is a blob
+- sp=rw is for the read write permissions
+- sip=168.1.5.60-168.1.5.70 defines the allowed IP range
+- spr=https defines the allowed protocol
+- sig is the signature used to authenticate to the blob.
+
+## Storage service encryption (SSE)
+
+automatically encrypting storage data in blobs, queues, tables and files by default and is decrypted before retrieval. protects data at rest.
+
+this process is performed using encryption keys.
+
+![](/images/azureadmin/enc.png)
+
+Customer-managed keys give you more flexibility and control. You can create, disable, audit, rotate, and define access controls.
+
+SAS has two potential risks
+
+    If a SAS is compromised, it can be used by anyone who obtains it.
+    If a SAS provided to a client application expires and the application is unable to retrieve a new SAS from your service, then the application's functionality may be hindered.
+
+SAS security best practices:
+- always use HTTPS. MITM attacks can compromise SAS tokens
+- Reference stored access policies where possible. Stored access policies give you the option to revoke permissions without having to regenerate the storage account keys. Set the storage account key expiration date far out in the future.
+- use short term expiration data so even if the SAS is compromised it wont last long.
+- renew SAS before expiration so that apps that use it are not disrupted
+- the start time should be 15 minutes before or not set at all so that apps using the SAS are not disrupted
+- be specific with resource to be accessed with SAS. like least privilege model to reduce damage.
+- Understand that your account will be billed for any usage. a user with read access may download 200 GB blobs which will incur 200 GB egress costs or write 200 GB to your storage which will again make you incur additional costs.
+- Validate data written using SAS. IT may be of malicious nature
+- take better decision in life. what I mean is SAS may not be the best answer if you want to give the whole container public read access. just make the container public.
+- view storage analytics for failure or unusual activity.
+
+[Read this for full explanation of all these points](https://docs.microsoft.com/en-us/learn/modules/configure-storage-security/7-apply-best-practices)
+
+by default storage in azure allows connections from all networks. azure storage access keys give unrestricted access to the storage account.
+
+[26 Oct 2021]
+
+## Azure files and file sync
+
+File storage is mostly accessed by using SMB, various applications can access this data by simply mounting this file shares. It can be used for replacing on-premises filer server, accessing file data anywhere in the world, for apps that save data in file shares, storing diagnostic data etc.
+
+When creating a file share we are required to define the quota for it. Quota refers to total size of files on the share.
+
+![](/images/azureadmin/file.png)
+
+Using the above command we can mount the azure file shares. Azure file shares can be mounted in Linux distributions using the CIFS(common internet file system i.e a form of SMB) kernel client. File mounting can be done on-demand with the mount command or on-boot (persistent) by creating an entry in /etc/fstab (a configuration table designed to ease the burden of mounting and unmounting file systems to a machine. It is a set of rules used to control how different filesystems are treated each time they are introduced to a system. Consider USB drives, for example.)
+
+*secure transfer required* enhances the security of your storage account by only allowing requests to the storage account by secure connection. for ex: rejecting HTTP protocol.
 

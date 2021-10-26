@@ -1,11 +1,20 @@
 {
     "cSpell.words": [
-        "Kibana"
+        "azcopy",
+        "blobfuse",
+        "CIFS",
+        "contosoblobs",
+        "Kibana",
+        "MITM"
     ],
     "cSpell.ignoreWords": [
+        "ADMS",
+        "GRVAZ",
+        "Giovanna",
         "accinfo",
         "seccenter",
-        "servicemodels"
+        "servicemodels",
+        "txxxxx"
     ],
     "[markdown]": {
         "editor.quickSuggestions": {
