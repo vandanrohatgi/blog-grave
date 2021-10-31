@@ -28,8 +28,8 @@ While the content can be a bit irregular in terms of topics, what you **can** re
 
 ### Recent Posts
 
-{% for post in site.posts limit:3 %}
+{% for post in site.posts %}
 {% include components/post-card.html %}
 {% endfor %}
 
-
+[comment]: <limit:3>
