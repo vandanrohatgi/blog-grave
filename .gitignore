@@ -2,4 +2,8 @@ _site
 .DS_Store
 .jekyll-cache
 .sass-cache
-.vscode
+.vscode/*
+_posts/2021-10-27-Microsoft-SC900.md
+_posts/2021-11-7-SC-200.md
+images/sc-200/
+images/sc900/

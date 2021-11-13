@@ -855,7 +855,7 @@ A connection can be established via the following options:
 Azure Import/Export service is used to securely import large amounts of data to Azure Blob storage and Azure Files by shipping disk drives to an Azure datacenter.
 
 import service is for transferring large amounts of data from on-premises to azure datacenter. copy data to disks using WAImportExport tool and encrypt it using bitlocker. after shipping the azure staff copies the data to storage account and ships the disks back.
-export service is for transferring large aomunts of data from azure daata center to on-premises site.
+export service is for transferring large amounts of data from azure data center to on-premises site.
 
 A bit weird I know...
 
