@@ -818,3 +818,52 @@ Using the above command we can mount the azure file shares. Azure file shares ca
 
 *secure transfer required* enhances the security of your storage account by only allowing requests to the storage account by secure connection. for ex: rejecting HTTP protocol.
 
+Azure files supports share snapshots like blob snapshots. Share snapshots capture a point-in-time, read-only copy of your data. You cannot delete a share that has share snapshots unless you delete all the share snapshots first. Only the data that has changed after your most recent share snapshot is saved. 
+
+Snapshots are useful for protection against application errors or corrupt data, accidental deletion or changes and for backups.
+
+**Azure file sync**
+
+With this you can cache remote file shares on azure to your on-premises windows servers. This helps when your remote connection is slow or you want better performance.
+
+![](/images/azureadmin/filesync.png)
+
+- Storage sync service: Storage Sync Service can create sync relationships with multiple storage accounts via multiple sync groups.
+- sync group: Endpoints within a sync group are kept in sync with each other.
+- registered server: a registered object represents a trust relationship between your server (or cluster) and the Storage Sync Service
+- file sync agent: The Azure File Sync agent is a downloadable package that enables Windows Server to be synced with an Azure file share.
+- server endpoint: a specific location on the registered server like a folder.
+- cloud endpoint: a the azure file share that is part of the file sync group.
+
+![](/images/azureadmin/steps.png)
+
+- deploy storage sync service
+- configure windows server: temporarily disabling Internet Explorer Enhanced Security and ensuring you have latest PowerShell version.
+- install azure file sync agent: downloadable package that enables Windows Server to be synced with an Azure file share
+- register windows server with storage sync service: establish a trust relationship requires your Subscription ID, Resource Group, and Storage Sync Service.
+
+cloud tiering: a feature to move infrequently accessed files to archive to free up storage on local share.
+
+## Configuring storage with tools
+
+Azure storage explorer : Its an app with which you can access multiple accounts and subscriptions and manage all your storage content on windows,mac or linux.
+
+A connection can be established via the following options:
+
+![](/images/azureadmin/account.png)
+
+Azure Import/Export service is used to securely import large amounts of data to Azure Blob storage and Azure Files by shipping disk drives to an Azure datacenter.
+
+import service is for transferring large amounts of data from on-premises to azure datacenter. copy data to disks using WAImportExport tool and encrypt it using bitlocker. after shipping the azure staff copies the data to storage account and ships the disks back.
+export service is for transferring large aomunts of data from azure daata center to on-premises site.
+
+A bit weird I know...
+
+AzCopy: a command line tool for copying data to/from Microsoft Azure Blob and File storage.  you can copy data between a file system and a storage account, or between storage accounts. along with copying it also supports listing, removing and resume/restart/retry failed jobs.
+
+AzCopy can be authenticated using either Azure AD or SAS tokens.
+
+## Configuring Azure storage
+
+![](/images/azureadmin/azurestorage.png)
+

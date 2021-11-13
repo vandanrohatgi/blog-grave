@@ -423,7 +423,7 @@ Expressroute helps in extending your on-premises network to azure cloud. These c
 
 Layer 2 and 3 of the OSI model are used in this concept:
 - L2: data link layer, node-to-node communication within a network
-- L2: network layer, handles the routing and addressing between nodes
+- L3: network layer, handles the routing and addressing between nodes
 
 Features of expressroute:
 - connects your on-premises network to azure cloud through connectivity partners.
