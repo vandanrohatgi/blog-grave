@@ -10,6 +10,8 @@ In parallel with those Azure courses I'm also taking a 7 week course on cryptogr
 
 <!--more-->
 
+[Github repository of my code for this course](https://github.com/vandanrohatgi/Cryptography)
+
 # Week 1
 
 Classic cryptography assumed that both parties shared a common secret which can be used to encrypt and decrypt the message. This was known as Private key crypto/ secret key/ shared key/symmetric-key cryptography. This shared key is assumed to be secret.
@@ -51,7 +53,7 @@ Key space should be large enough so that brute force doesn't work.
 
 Here we use a phrase instead of a single alphabet key to encrypt.
 
-![](vigen.png)
+![](/images/crypto/vigen.png)
 
 Here the key is "cafe" and message is "tell him about me". 
 
@@ -60,7 +62,7 @@ The Vigenere cipher was considered secure for many years because:
 
 One of attacks discussed in the course is frequency attack where we use the plain text letter frequencies which is just a diagram showing the most used alphabets in english language.
 
-![](freq.png)
+![](/images/crypto/freq.png)
 
 I read a bit more about this attack and concluded that it was too much for my pea sized brain. The gist that I was able to get was that we take the alphabets that are found the most in english then we assume that the cipher is also having those same alphabets as the most repeated. We then perform further analysis, we find the length of the key and I blacked out after this.
 
@@ -70,14 +72,16 @@ In the end I would like to say that the vigenere cipher can be broken and it's n
 
 in Decimal system we use 10 numbers to represent data and in Hexadecimal we use 16. 0-9 and then A-F.
 
-![](hex.png)
-![](convert.png)
+![](/images/crypto/hex.png)
+![](/images/crypto/convert.png)
 
-## Attacking Variant Vigenere Cipher
+Types of threat models of encryption:
+1. cipher only attack: the attacker just has access to the cipher text. it can be dangerous if a hacker gets his hand on multiple cipher texts.
+2. known plain text: the attacker know the plain text behind the cipher.
+3. chosen plain text attack: the plain text that is affected by the attacker
+4. chosen cipher text attack
 
-Variant Vigenere cipher: Normal vigenere cipher only supports small case alphabets. So we use ascii and hexadecimal to represent characters. Instead of shifting we use bitwise XOR of the key and the message to create a cipher.
 
-![](vigenere.png)
+[comment]: <> (My main priority is to learn about common cryptography algorithms. The programming assignments were just making it hard to be focussed on that goal. I will try to come back to them In the end. Also, I just realized that I'm just copying and pasting the course slides and I find the theory of this course boring. I will be continuing with the basic algorithms from this course over my github repo. [Here's the link again](https://github.com/vandanrohatgi/Cryptography))
 
-![](example.png)
 

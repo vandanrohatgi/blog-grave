@@ -7,7 +7,9 @@
         "bruteforce",
         "CIFS",
         "contosoblobs",
+        "hackathon",
         "Kibana",
+        "lightdm",
         "MITM"
     ],
     "cSpell.ignoreWords": [
