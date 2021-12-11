@@ -453,7 +453,7 @@ In the desciption of challenge we see that we have been given 20 tokens and we n
 
 Okay. First we see a mapping of addresses and their balance. Then we see a simple constructor. fair enough. Then we see a transfer function that takes an address and a value, and then transfers that amount from the sender to receiver. And the last function shows us the balance of addresses.
 
-The hint says if we know what an odometer is. At first I thought it was an etherium or a blockchain concept I didn't know. Which landed me on this [awesome article](https://medium.com/loom-network/how-to-secure-your-smart-contracts-6-solidity-vulnerabilities-and-how-to-avoid-them-part-1-c33048d4d17d)
+The hint says if we know what an odometer is. At first I thought it was an ethereum or a blockchain concept I didn't know. Which landed me on this [awesome article](https://medium.com/loom-network/how-to-secure-your-smart-contracts-6-solidity-vulnerabilities-and-how-to-avoid-them-part-1-c33048d4d17d)
 
 Just like odometers which after hitting 999999 go back to 000000 solidity also has this underflow and overflow mechanism. (read the above article)
 
