@@ -43,20 +43,22 @@ bin  boot  dev	etc  home  lib	lib64  media  mnt  opt	proc  root  run  sbin  srv 
 root@d3bfa23f0b11:/#
 {%endhighlight%}
 
-# 1. If machine is a new install, protect it from hostile network traffic until the operating
+# System Installation and Patching
+
+## 1. If machine is a new install, protect it from hostile network traffic until the operating
 system is installed and hardened
 
 We don't need to do anything for this step since the container is not exposed to the internet. Also I have the host firewall turned on so no other device even on my network can access this server until I switch off the firewall. For linux you can do
 
 ![](https://i.imgur.com/GPq6zNw.png)
 
-# 2. Use the latest version of the Operating System if possible
+## 2. Use the latest version of the Operating System if possible
 
 As you can see above I am using Ubuntu 20.04.1 which is pretty recent I would say. Other than that always having the latest release (say Ubuntu 21) can lead to changes and hassle that can interrupt your services due to unseen bugs and lesser support since its a new release.
 
 My say on this would be, to have a correct balance. Not too old and not too new.
 
-# 3. Create a separate volume with the nodev, nosuid, and noexec options set for /tmp.
+## 3. Create a separate volume with the nodev, nosuid, and noexec options set for /tmp.
 
 ### Optional read start:
 I feel like I should warn about the risk that comes with this rule. I followed [this guide](https://www.cyberciti.biz/faq/howto-mount-tmp-as-separate-filesystem-with-noexec-nosuid-nodev/) to perform this check. However, I did not try this on a real machine. I wasn't able to do it on a docker beacuse fstab(file system table) doesn't really work in the same way over there. So I tried on my wokring kali VM which was a huge mistake to say the least.
@@ -83,13 +85,13 @@ And here is after I created a separate volume for /tmp and mounted with the noex
 
 ![](https://i.imgur.com/t3vrSw1.png)
 
-# 4. Create separate volumes for /var, /var/log, and /home.
+## 4. Create separate volumes for /var, /var/log, and /home.
 
 So just like the above check. We can create new volumes for /var , /var/log and /home and mounting them and finally editing their respective entries in fstab.
 
 Like /tmp these directories are not usually world writable. So we only perform this check to protect system from resource exhaustion. For example /var/log getting too big and interrupting system functions by eating up all the space.
 
-# 5. Set sticky bit on all worldwritable directories.
+## 5. Set sticky bit on all worldwritable directories.
 
 This check makes it so the directories where everyone has write access, cannot delete files owned by other users. We do this by adding the Sticky bit to those directories. Let's go over special permissions while we are at it:
 
@@ -112,5 +114,35 @@ Here is a scenario I created:
 
 ![](https://i.imgur.com/7R01btl.png)
 
-To be continued ...
+## 6. Ensure the system is configured to be able to receive software updates
+
+So Ubuntu comes with the ability to get updates by default. Just do a quick `sudo apt update && apt upgrade` when you first install the system.
+
+you can use [this guide](https://www.cyberciti.biz/faq/how-to-set-up-automatic-updates-for-ubuntu-linux-18-04/) to automatically install new updates. Be carefull while going through it. It also guides you to automatically reboot without any alert. It is more suited for servers and not daily drivers.
+
+# OS Hardening
+
+## 1. Restrict core dumps
+
+Core dumps contain debug info about any crashes that might occur. As seen from out past experiences we know that debug logs can expose a lot of sensitive information (at least that's what the CTFs said). 
+
+Again this rule only is for production Servers and not development environment or home labs. Core dumps are needed to debug and get a sense of what went wrong.
+
+We can disable core dumps using `ulimit` command. It is used to set limits to resources that can be used by various functionas. For example set limit to concurrent user processes, maximum memory size etc. [Here's an awesome guide](https://www.geeksforgeeks.org/ulimit-soft-limits-and-hard-limits-in-linux/) along with [another good one](https://linuxhint.com/permanently_set_ulimit_value/).
+
+Ulimit has 2 types of limits:
+- soft: the actual limit that is used for processing
+- hard: the upper bound (i.e maximum) of the soft limit
+
+To persist these changes we have to edit the `/etc/security/limits.conf` and add something like 
+
+`* soft core 0`
+
+`* hard core 0`
+
+![](https://i.imgur.com/0RxWWE2.png)
+
+You can see after I changed "unlimited" to "0" the coredump was not created. (To see all limits, do `ulimit -a`)
+
+To be continued...
 
