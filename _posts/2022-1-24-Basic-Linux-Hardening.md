@@ -144,5 +144,19 @@ To persist these changes we have to edit the `/etc/security/limits.conf` and add
 
 You can see after I changed "unlimited" to "0" the coredump was not created. (To see all limits, do `ulimit -a`)
 
+# 2. Remove legacy services
+
+Simple check to perform. Just run a command like:
+
+`sudo apt-get --purge remove xinetd nis tftpd tftpd-hpa telnetd rsh-server rsh-redone-server ypserve ypbind-mt talk talkd`
+
+# 3. Disable any services and applications started by xinetd or inetd that are not being utilized. Remove xinetd, if possible
+
+We can include xinetd service in our previous check. I looked up xinetd and found an installation guide from 2007 so it is indeed pretty old. I did however find it interesting. It basically started the server whenever a request came in. If no requests arrive the server remains off.
+
+# 4. Disable or remove server services that are not going to be utilized
+
+(At this point I realized that the docker container is very different from a virtual machine environment, since many services are configured a lot differently. I decided to follow the rest of the checks with a Ubuntu VM.)
+
 To be continued...
 
