@@ -156,7 +156,49 @@ We can include xinetd service in our previous check. I looked up xinetd and foun
 
 # 4. Disable or remove server services that are not going to be utilized
 
-(At this point I realized that the docker container is very different from a virtual machine environment, since many services are configured a lot differently. I decided to follow the rest of the checks with a Ubuntu VM.)
+(At this point I realized that the docker container is very different from a virtual machine environment, since many services are configured a lot differently. I decided to follow the rest of the checks with an Ubuntu VM.)
+
+To perform this check you can first check for installed services using: `systemctl list-unit-files`
+
+![](https://i.imgur.com/m98X8sj.png)
+
+And remove services you don't need likewise.
+
+# 5. Ensure syslog (rsyslog, syslog, syslog­ng) service is running.
+
+Use Systemctl to check if (any of the above) rsyslog,syslog or syslogng are running or not. If not then use `systemctl start rsyslog`
+
+![](https://i.imgur.com/5w6mcVS.png)
+
+# 6. Enable an Network Time Protocol (NTP) service to ensure clock accuracy
+
+I was unsure about how this one was related to security. Then i read further and saw that it is indeed very important to have the right time. It helps in analyzing log files in case of any incident.
+
+[Here is the guide I followed](https://linuxconfig.org/ubuntu-20-04-ntp-server)
+
+Pretty straight forward. Install ntp, configure it according to your use and run using systemctl.
+
+To configure, just add the region closest to you. for example:
+
+server 0.in.pool.ntp.org
+server 1.in.pool.ntp.org
+server 2.in.pool.ntp.org
+server 3.in.pool.ntp.org
+
+add this to /etc/ntp.conf and restart the service.
+
+![](https://i.imgur.com/HoKsuBl.png)
+
+# 7. Restrict the use of the *cron* and *at* services
+
+Since these scheduling services can run commands which we have seen from numerous HTB machines. We should restict the use for these only for accounts that need it.
+
+[Another great guide](https://www.cyberciti.biz/faq/howto-restrict-at-cron-command-to-authorized-users/) by cyberciti.biz 
+
+Basically we just need to edit the cron.allow to define users that can modify/create cron jobs. If the user is not listed in cron.allow then he/she can run that cron job but not modify it. cron.allow only defines access to the crontab command which is used to create/modify jobs. Similarly we can define users for *at*.
+
+![](https://i.imgur.com/lAroZv4.png)
+
+Before making the changes I was able to create cronjobs for my user "sandbox". But after I added just the user "root" to cron.allow I was not able to create anymore jobs. Take note that I can still run jobs with the privileges of user "sandbox" but to create that job I will need to use the user "root".
 
 To be continued...
-
