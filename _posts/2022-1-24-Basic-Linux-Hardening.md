@@ -8,6 +8,8 @@ image: /images/hard/info.jpeg
 
 In this one I will try and harden a basic linux web server running apache. Hardening for those who may be unfamiliar, is the process of enforcing best security practices and configurations to decrease attack surface and increase your life expectancy by 5 years (due to reduced stress). 
 
+<!--more-->
+
 Here is the [container I am using](https://hub.docker.com/_/httpd)
 
 Specifications:
@@ -200,5 +202,42 @@ Basically we just need to edit the cron.allow to define users that can modify/cr
 ![](https://i.imgur.com/lAroZv4.png)
 
 Before making the changes I was able to create cronjobs for my user "sandbox". But after I added just the user "root" to cron.allow I was not able to create anymore jobs. Take note that I can still run jobs with the privileges of user "sandbox" but to create that job I will need to use the user "root".
+
+# User Access and Passwords
+
+## 1. Create an account for each user who should access the system
+
+Makes sense. Sharing accounts is going to make incident response and debugging a living hell. Also a quick one if you have groups already made, So you can just create a user and add them to the respective groups to provide needed privileges.
+
+`useradd -m sandbox2` (add -m only if you want to create a home directory for that user)
+`gpasswd -a sanbox2 sudo` (add sandbox2 user to sudo group)
+
+![](https://i.imgur.com/tLnEb5M.png)
+
+![](https://i.imgur.com/3LHXcQL.png)
+
+[Here's a full guide](https://linuxize.com/post/how-to-create-users-in-linux-using-the-useradd-command/)
+
+## 2. Enforce the use of strong passwords
+
+To perform this check we have install a package "pwquality". It helps enforce password policies in linux. The guide I provide below is very staright forward. Just do as it says. Only doubt you may have would be that why are we assigning negative numbers like `ocredit=-2` in password policy. 
+
+That is because this will do 2 things. one is that it will enforce minimum number of symbols in password to 2. Second it will make sure that the 2 symbols do not count towards the minimum length. So the effect minimum length is 10 if minimum length is 8 and minimum symbols is 2.
+
+[Here is the awesome guide](https://linuxhint.com/secure_password_policies_ubuntu/)
+
+![](https://i.imgur.com/7zoZDeB.png)
+
+## 3. Use sudo to delegate admin access
+
+We just added a user to a sudo group in the the first check of this section.
+
+To add:
+
+`gpasswd -a sandbox2 sudo`
+
+To remove:
+
+`gpasswd -d sandbox2 sudo`
 
 To be continued...
