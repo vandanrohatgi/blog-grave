@@ -240,4 +240,34 @@ To remove:
 
 `gpasswd -d sandbox2 sudo`
 
+
+# Network Security & Remote Access
+
+## 1. Limit connections to services running on the host to authorized users of the service via firewalls and other access control technologies
+
+In this check we will configure a basic Firewall. "UFW" (uncomplicated firewall) can be found in many GNU systems. Lets do some basic rule config.
+
+First let us see the current rules of the firewall.
+
+[As always, here is waht I followed](https://www.cyberciti.biz/faq/how-to-configure-firewall-with-ufw-on-ubuntu-20-04-lts/)
+
+![](https://i.imgur.com/WNKbyNW.png)
+
+Apache is allowed to be accessed from anywhere. Makes sense if you want a public web server. 
+
+Next let's add a rule so that connections from only specific IP addresses can access out SSH server.
+
+![](https://i.imgur.com/5rR7LYH.png)
+
+Now suppose we just got IOC (indicator of compromise) from Threat intel team and they advised us to block traffic from IP from `10.10.12.2`
+
+![](https://i.imgur.com/zYKHZK6.png)
+
+Now let's add a final rule to rate limit the connections on Apache to deny connections from attackers who brute forcing for credentials or secrets.
+
+![](https://i.imgur.com/WS68vup.png)
+
+We just made the world a safer place. Let's move to the next check.
+
+
 To be continued...
