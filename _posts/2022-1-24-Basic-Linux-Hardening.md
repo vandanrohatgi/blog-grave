@@ -249,13 +249,13 @@ In this check we will configure a basic Firewall. "UFW" (uncomplicated firewall)
 
 First let us see the current rules of the firewall.
 
-[As always, here is waht I followed](https://www.cyberciti.biz/faq/how-to-configure-firewall-with-ufw-on-ubuntu-20-04-lts/)
+[As always, here is what I followed](https://www.cyberciti.biz/faq/how-to-configure-firewall-with-ufw-on-ubuntu-20-04-lts/)
 
 ![](https://i.imgur.com/WNKbyNW.png)
 
 Apache is allowed to be accessed from anywhere. Makes sense if you want a public web server. 
 
-Next let's add a rule so that connections from only specific IP addresses can access out SSH server.
+Next let's add a rule so that connections from only specific IP addresses can access our SSH server.
 
 ![](https://i.imgur.com/5rR7LYH.png)
 
@@ -269,5 +269,43 @@ Now let's add a final rule to rate limit the connections on Apache to deny conne
 
 We just made the world a safer place. Let's move to the next check.
 
+## Disable IP forwarding,packet redirect... Enable Broadcast request ignore, TCP/SYN cookies...
+
+### Disable
+
+- IP Forwarding: Done when the linux server is acting as a router or a border devices and is needed to forward packets to other devices. To be disabled to stop bandwidth wastage and remove excess features that may come in handy for a threat actor.
+
+note: All the changes in this rule will be done in /etc/sysctl.conf
+
+`net.ipv4.ip_forward=0`
+
+- Redirects: ICMP redirect can lead to Mitm attacks. [Here is a good read](https://blog.zimperium.com/doubledirect-zimperium-discovers-full-duplex-icmp-redirect-attacks-in-the-wild/)
+
+net.ipv4.conf.all.accept_redirects=0
+net.ipv4.conf.all.send_redirects=0
+
+![](https://i.imgur.com/0V5dWJt.png)
+
+- Source routed packet acceptance: source based packets use a list of all IPs to go via to reach a final destination. You can tell this can be used to exploit some fom of trust relationship in a network. 
+
+net.ipv4.conf.all.accept_source_route=0
+
+- ICMP redirect: we already disabled this in the above check.
+
+### Enable
+
+- Ignore Broadcast requests: Basically remember when we try to ping an entire subnet for alive hosts during HTB machines? To stop machines from responding to that, we can enable this option. 
+
+net.ipv4.icmp_echo_ignore_broadcasts = 1
+
+- Bad error message protection: Alerts about all the bad/unusual error messages in network
+
+net.ipv4.icmp_ignore_bogus_error_responses = 1
+
+- TCP/SYN cookies: these cookies are used to protect from syn flood attacks. Basically anytime a syn packet comes in no connection is established. Only when ACK is received from client the connection is put in a queue, and hence the queue is not filled up with half connections.
+
+[read in detail here](https://www.geeksforgeeks.org/how-syn-cookies-are-used-to-preventing-syn-flood-attack/)
+
+net.ipv4.tcp_syncookies=1
 
 To be continued...
