@@ -308,4 +308,63 @@ net.ipv4.icmp_ignore_bogus_error_responses = 1
 
 net.ipv4.tcp_syncookies=1
 
+## 3. In the SSH server configuration ensure that:
+
+These configs are enabled by default when ssh is installed. Let's just go over their rationale quickly.
+
+- Protocol version is set to 2
+
+When we do a `ssh -v localhost` it displays all the debug info. And we can see we already have ssh v2 by default.
+
+![](https://i.imgur.com/j3h1qbW.png)
+
+- LogLevel is set to INFO
+
+To get as much detailed info as from logs as possible. Inside `/etc/ssh/sshd_config` set:
+
+LogLevel INFO
+
+- PermitEmptyPasswords is set to No
+
+To prevent unauthorized access. For example if any user is having empty password anyone can login to that user without any password on that system.
+
+Inside `/etc/ssh/sshd_config`:
+
+PermitEmptyPasswords no
+
+## 4. Disable root login over SSH
+
+Pretty straightforward. Allowing login to root is always bad. even if someone doesn't know the password they can always brute force it or steal required authentication material. Use sudo for root access always.
+
+Inside `/etc/ssh/sshd_config`:
+
+PermitRootLogin no
+
+## 5. Deploy an Intrusion Prevention System (IPS) such as fail2ban
+
+fail2ban is linux tool to handle bruteforce attacks on servies like ftp,ssh,smtp... [I used this guide to install and configure fail2ban](https://linuxize.com/post/install-configure-fail2ban-on-ubuntu-20-04/).
+
+We used UFW to rate-limit our apache server. Lets use f2b to secure our ssh server. (fail2ban has a lot of options like sending mail alert,contacting cloudfare,customization etc for many services like apache,squid,smtp etc. Be sure to explore!)
+
+Here is what I configured for my ssh:
+
+{%highlight text%}
+[sshd]
+enabled=true
+maxretry=3
+findtime=5m
+bantime=4w
+{%endhighlight%}
+
+maxretry is amount of times failure is allowed. you can set it according to real world experience like what is the typical amount of times an average Joe takes to login.  
+
+findtime is time in which failures occured. This is very critical. If its too less then threat may just rate-limit their brute force. If It is too less, then normal brute force is not going to be stopped.
+
+I didn't chose to ignore any IP because well... what if the threat is already inside our network and is just trying to move laterally.
+
+And bantime is self explainotary. (pardon my spelling btw)
+
+You can also use fail2ban-client to set these rules. Another use for it is to unban legitimate users if you work in the IT dept.
+
+
 To be continued...
