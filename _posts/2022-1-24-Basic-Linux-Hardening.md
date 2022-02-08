@@ -366,5 +366,31 @@ And bantime is self explainotary. (pardon my spelling btw)
 
 You can also use fail2ban-client to set these rules. Another use for it is to unban legitimate users if you work in the IT dept.
 
+# Apache Webserver (HTTPD)
+
+## 1. Always run apache with a dedicated non admin account
+
+This is done by default. Apache runs as user "www-data" which is compliant with the check. The user for apache can be changed with `/etc/apache2/envvars`
+
+export APACHE_RUN_USER=www-data
+export APACHE_RUN_GROUP=www-data
+
+## 2. Disable any modules not required
+
+[guide](https://www.simplified.guide/apache/enable-disable-module)
+
+Simple enough. apache uses modules to extend its functionality. Lets see if I have any unnecessary modules loaded.
+
+`apachectl -M`
+
+![](https://i.imgur.com/KPutCG8.png)
+
+OH! how did that get there. (certainly not me, must be dave from IT) Let's disable it.
+
+![](https://i.imgur.com/x7AfXrv.png)
+
+Similarly, you can disable any other module that you don't need.
+
+## 3. Disable HTTP Trace: TraceEnable Off
 
 To be continued...
