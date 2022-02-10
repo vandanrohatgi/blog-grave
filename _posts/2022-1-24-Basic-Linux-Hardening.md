@@ -391,6 +391,39 @@ OH! how did that get there. (certainly not me, must be dave from IT) Let's disab
 
 Similarly, you can disable any other module that you don't need.
 
-## 3. Disable HTTP Trace: TraceEnable Off
+## 3. Disable HTTP Trace: TraceEnable 
 
-To be continued...
+Te 'trace' header basically reflects the entire request back to the client for debugging purposes. You can see how that can leead to a quick and easy XSS. By default this option is now disabled.
+
+![](https://i.imgur.com/7Mz9X7U.png)
+
+## 4. Configure Apache not to advertise the software/OS versions
+
+[guide](https://www.tecmint.com/hide-apache-web-server-version-information/)
+
+before:
+
+![](https://i.imgur.com/4d3nBub.png)
+
+after:
+
+![](https://i.imgur.com/BxGrXuZ.png)
+
+## 5. Deny access to files by default ­ only allow access to designated directories.
+
+Last and final check of this blog. I created an example file on server and now lets restrict access to it.
+
+![](https://i.imgur.com/KshO5D0.png)
+
+![](https://i.imgur.com/v09iQdh.png)
+
+{%highlight text%}
+<Files ~ "\.txt$">
+    Order allow,deny
+    Deny from all
+</Files>
+{%endhighlight%}
+
+Similarly access can be delegated for any file/directory. First we define order to process the allow and deny rules and then we deny access from all.
+
+And that is about it for this one. We finally have a pretty secure machine. Ofcourse nothing is ever fully secure but you can always do your best :)
