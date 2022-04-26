@@ -8,6 +8,8 @@ image: /images/cicd/info.png
 
 Heyo! remember me? Me niether. So I just setup a CICD for one of my projects. I am now 50% bald. I'm documenting about every issue I  faced and how I solved it.
 
+<!--more-->
+
 Steps:
 - Create a basic Flask web application
 - Create basic tests for the code
