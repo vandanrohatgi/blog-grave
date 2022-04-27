@@ -3,6 +3,7 @@ title: Getting started with CICD
 tags:
 - technology
 - DevOps
+- Docker
 image: /images/cicd/info.png
 ---
 
@@ -252,7 +253,7 @@ jobs:
       - name: heroku deploy
         working-directory: backend/
         env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API }}
+          HEROKU_API_KEY: ${\{ secrets.HEROKU_API \}}
         run: |
           heroku container:login
           heroku container:push web -a osint-backend
