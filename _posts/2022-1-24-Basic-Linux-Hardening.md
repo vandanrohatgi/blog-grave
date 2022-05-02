@@ -26,9 +26,9 @@ First I pulled a docker image of apache and deployed a basic webpage to it using
 docker run -dit --name my-apache-app -p 8080:80 -v "$PWD":/usr/local/apache2/htdocs/ httpd:2.4
 {%endhighlight%}
 
-![](https://i.imgur.com/JHnquOt.png)
+![](/images/hard/JHnquOt.png)
 
-![](https://i.imgur.com/ftGMxmW.png)
+![](/images/hard/ftGMxmW.png)
 
 Now you may wonder why? why did I make this page the way that I did? Because nothing is harder than Russian bass. Moving on...
 
@@ -52,7 +52,7 @@ system is installed and hardened
 
 We don't need to do anything for this step since the container is not exposed to the internet. Also I have the host firewall turned on so no other device even on my network can access this server until I switch off the firewall. For linux you can do
 
-![](https://i.imgur.com/GPq6zNw.png)
+![](/images/hard/GPq6zNw.png)
 
 ## 2. Use the latest version of the Operating System if possible
 
@@ -81,11 +81,11 @@ PS: I know the changes won't preserved If I don't change the fstab file but this
 
 Here is me creating a script before making the changes:
 
-![](https://i.imgur.com/Yam77B9.png)
+![](/images/hard/Yam77B9.png)
 
 And here is after I created a separate volume for /tmp and mounted with the noexec,nosuid and nodev permissions to it.
 
-![](https://i.imgur.com/t3vrSw1.png)
+![](/images/hard/t3vrSw1.png)
 
 ## 4. Create separate volumes for /var, /var/log, and /home.
 
@@ -108,13 +108,13 @@ Here is a scenario I created:
 - Now I added a sticky bit to it `chmod o+t /testdir`
 - test2 was not able to modify the file in any way.
 
-![](https://i.imgur.com/ej1UsZC.png)
+![](/images/hard/ej1UsZC.png)
 
-![](https://i.imgur.com/tnTQsrn.png)
+![](/images/hard/tnTQsrn.png)
 
-![](https://i.imgur.com/GfPWOfC.png)
+![](/images/hard/GfPWOfC.png)
 
-![](https://i.imgur.com/7R01btl.png)
+![](/images/hard/7R01btl.png)
 
 ## 6. Ensure the system is configured to be able to receive software updates
 
@@ -142,7 +142,7 @@ To persist these changes we have to edit the `/etc/security/limits.conf` and add
 
 `* hard core 0`
 
-![](https://i.imgur.com/0RxWWE2.png)
+![](/images/hard/0RxWWE2.png)
 
 You can see after I changed "unlimited" to "0" the coredump was not created. (To see all limits, do `ulimit -a`)
 
@@ -162,7 +162,7 @@ We can include xinetd service in our previous check. I looked up xinetd and foun
 
 To perform this check you can first check for installed services using: `systemctl list-unit-files`
 
-![](https://i.imgur.com/m98X8sj.png)
+![](/images/hard/m98X8sj.png)
 
 And remove services you don't need likewise.
 
@@ -170,7 +170,7 @@ And remove services you don't need likewise.
 
 Use Systemctl to check if (any of the above) rsyslog,syslog or syslogng are running or not. If not then use `systemctl start rsyslog`
 
-![](https://i.imgur.com/5w6mcVS.png)
+![](/images/hard/5w6mcVS.png)
 
 # 6. Enable an Network Time Protocol (NTP) service to ensure clock accuracy
 
@@ -189,7 +189,7 @@ server 3.in.pool.ntp.org
 
 add this to /etc/ntp.conf and restart the service.
 
-![](https://i.imgur.com/HoKsuBl.png)
+![](/images/hard/HoKsuBl.png)
 
 # 7. Restrict the use of the *cron* and *at* services
 
@@ -199,7 +199,7 @@ Since these scheduling services can run commands which we have seen from numerou
 
 Basically we just need to edit the cron.allow to define users that can modify/create cron jobs. If the user is not listed in cron.allow then he/she can run that cron job but not modify it. cron.allow only defines access to the crontab command which is used to create/modify jobs. Similarly we can define users for *at*.
 
-![](https://i.imgur.com/lAroZv4.png)
+![](/images/hard/lAroZv4.png)
 
 Before making the changes I was able to create cronjobs for my user "sandbox". But after I added just the user "root" to cron.allow I was not able to create anymore jobs. Take note that I can still run jobs with the privileges of user "sandbox" but to create that job I will need to use the user "root".
 
@@ -212,9 +212,9 @@ Makes sense. Sharing accounts is going to make incident response and debugging a
 `useradd -m sandbox2` (add -m only if you want to create a home directory for that user)
 `gpasswd -a sanbox2 sudo` (add sandbox2 user to sudo group)
 
-![](https://i.imgur.com/tLnEb5M.png)
+![](/images/hard/tLnEb5M.png)
 
-![](https://i.imgur.com/3LHXcQL.png)
+![](/images/hard/3LHXcQL.png)
 
 [Here's a full guide](https://linuxize.com/post/how-to-create-users-in-linux-using-the-useradd-command/)
 
@@ -226,7 +226,7 @@ That is because this will do 2 things. one is that it will enforce minimum numbe
 
 [Here is the awesome guide](https://linuxhint.com/secure_password_policies_ubuntu/)
 
-![](https://i.imgur.com/7zoZDeB.png)
+![](/images/hard/7zoZDeB.png)
 
 ## 3. Use sudo to delegate admin access
 
@@ -251,21 +251,21 @@ First let us see the current rules of the firewall.
 
 [As always, here is what I followed](https://www.cyberciti.biz/faq/how-to-configure-firewall-with-ufw-on-ubuntu-20-04-lts/)
 
-![](https://i.imgur.com/WNKbyNW.png)
+![](/images/hard/WNKbyNW.png)
 
 Apache is allowed to be accessed from anywhere. Makes sense if you want a public web server. 
 
 Next let's add a rule so that connections from only specific IP addresses can access our SSH server.
 
-![](https://i.imgur.com/5rR7LYH.png)
+![](/images/hard/5rR7LYH.png)
 
 Now suppose we just got IOC (indicator of compromise) from Threat intel team and they advised us to block traffic from IP from `10.10.12.2`
 
-![](https://i.imgur.com/zYKHZK6.png)
+![](/images/hard/zYKHZK6.png)
 
 Now let's add a final rule to rate limit the connections on Apache to deny connections from attackers who brute forcing for credentials or secrets.
 
-![](https://i.imgur.com/WS68vup.png)
+![](/images/hard/WS68vup.png)
 
 We just made the world a safer place. Let's move to the next check.
 
@@ -284,7 +284,7 @@ note: All the changes in this rule will be done in /etc/sysctl.conf
 net.ipv4.conf.all.accept_redirects=0
 net.ipv4.conf.all.send_redirects=0
 
-![](https://i.imgur.com/0V5dWJt.png)
+![](/images/hard/0V5dWJt.png)
 
 - Source routed packet acceptance: source based packets use a list of all IPs to go via to reach a final destination. You can tell this can be used to exploit some fom of trust relationship in a network. 
 
@@ -316,7 +316,7 @@ These configs are enabled by default when ssh is installed. Let's just go over t
 
 When we do a `ssh -v localhost` it displays all the debug info. And we can see we already have ssh v2 by default.
 
-![](https://i.imgur.com/j3h1qbW.png)
+![](/images/hard/j3h1qbW.png)
 
 - LogLevel is set to INFO
 
@@ -383,11 +383,11 @@ Simple enough. apache uses modules to extend its functionality. Lets see if I ha
 
 `apachectl -M`
 
-![](https://i.imgur.com/KPutCG8.png)
+![](/images/hard/KPutCG8.png)
 
 OH! how did that get there. (certainly not me, must be dave from IT) Let's disable it.
 
-![](https://i.imgur.com/x7AfXrv.png)
+![](/images/hard/x7AfXrv.png)
 
 Similarly, you can disable any other module that you don't need.
 
@@ -395,7 +395,7 @@ Similarly, you can disable any other module that you don't need.
 
 Te 'trace' header basically reflects the entire request back to the client for debugging purposes. You can see how that can leead to a quick and easy XSS. By default this option is now disabled.
 
-![](https://i.imgur.com/7Mz9X7U.png)
+![](/images/hard/7Mz9X7U.png)
 
 ## 4. Configure Apache not to advertise the software/OS versions
 
@@ -403,19 +403,19 @@ Te 'trace' header basically reflects the entire request back to the client for d
 
 before:
 
-![](https://i.imgur.com/4d3nBub.png)
+![](/images/hard/4d3nBub.png)
 
 after:
 
-![](https://i.imgur.com/BxGrXuZ.png)
+![](/images/hard/BxGrXuZ.png)
 
 ## 5. Deny access to files by default ­ only allow access to designated directories.
 
 Last and final check of this blog. I created an example file on server and now lets restrict access to it.
 
-![](https://i.imgur.com/KshO5D0.png)
+![](/images/hard/KshO5D0.png)
 
-![](https://i.imgur.com/v09iQdh.png)
+![](/images/hard/v09iQdh.png)
 
 {%highlight text%}
 <Files ~ "\.txt$">

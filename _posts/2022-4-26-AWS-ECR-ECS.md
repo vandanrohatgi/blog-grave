@@ -157,7 +157,7 @@ Your container should be up and running and now you can get it's public IP using
 
 You get the task ID from the "run-task" command. Browsing to this IP we see that our application is hosted!
 
-![](https://i.imgur.com/KfAmull.png)
+![](/images/ecs/KfAmull.png)
 
 Recap: Create a task definition (Which is just a blueprint of the container that will be created), create a cluster(all the tasks and services are launched inside a cluster) and then run a task (create a container from the image).
 

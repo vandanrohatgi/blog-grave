@@ -20,15 +20,15 @@ So first we just follow the basic setup guide, which is pretty clear. We interac
 
 Also if you cant call the "player" or "ethernaut" functions and variables, try opening the console and refreshing the page. Starting the challenge. It is pretty easy since this is just an example challenge. The challenge said to look into contract.info() to start.
 
-![](https://i.imgur.com/MarT8Ve.png)
+![](/images/ether/MarT8Ve.png)
 
 So we can use the contract object to call functions. The info() function said to call another function info1(). After this we just do as the consecutive functions say. 
 
-![](https://i.imgur.com/kyNn476.png)
+![](/images/ether/kyNn476.png)
 
 After this we need to find a password for the authenticated function. We can find it inside the properties of contract object.
 
-![](https://i.imgur.com/wNNcpo8.png)
+![](/images/ether/wNNcpo8.png)
 
 And then we just need to allow the transcation using metaMask extension and click on submit. Now we can see the code of the smart contract.
 
@@ -141,7 +141,7 @@ contract Fallback {
 
 The last function without the "function" keyword is the way to solve this challenge. First we see there is an owner. The constructor creates the owner and defines that this owner has made 1000 ether worth of contributions. 
 
-![](https://i.imgur.com/ZuuNH3Y.png)
+![](/images/ether/ZuuNH3Y.png)
 
 Next we see a "modifier" which I'm guessing is a condition and a statement which is triggered when the condition fails. The contribute() function checks the requirement that  we don't send all of our ether to this level, so it caps it at 0.001 ethers.
 
@@ -149,7 +149,7 @@ If it sees that we have sent it more ether than the owner then we are assigned a
 
 We cant withdraw until we are the owner because of the condition. So we use fallback method. That means we just need to call a function without data to create the transaction. 
 
-![](https://i.imgur.com/VYydb6E.png)
+![](/images/ether/VYydb6E.png)
 
 First I used this command to see if I can send ether using the sendTransaction function. Everything should be clear from the name except the value parameter. 
 
@@ -165,7 +165,7 @@ Calling "contract.contributions(player)"  show that we indeed did something. Nex
 
 which worked! And since the fallback function makes anyone who send ether through it as the owner, we were now the owner of contract!
 
-![](https://i.imgur.com/Mu5HqrD.png)
+![](/images/ether/Mu5HqrD.png)
 
 I was still a little shakey on the concepts. So I went ahead and created a new Instance of the level to try what works and what doesn't. Send() just takes the value as is and sendTransaction({value:abc}) uses this format.
 
@@ -221,7 +221,7 @@ contract Fallout {
 
 Just looking at the constructor should give you the answer. It is spelled "Fal1out" instead of "Fallout". Which means its not really a constructor but just another function. And we can call it to send ether and become the owner.
 
-![](https://i.imgur.com/x3Tjabv.png)
+![](/images/ether/x3Tjabv.png)
 
 After solving the challenge we get a case study of company named "Dynamic Pyramid" which renamed itself to "Rubixi". What they forgot to do was rename the constructor name and a hacker called the old constructor to become the owner of the contract.
 
@@ -345,17 +345,17 @@ Now after we do this, We compile it and then click on deploy from the left side 
 
 Once deployed The functions we made in our contract will become buttons and input fields with which we can interact. 
 
-![](https://i.imgur.com/TBGieBZ.png)
+![](/images/ether/TBGieBZ.png)
 
 Now when we click on getsecret it will make a call to flip function with correct predictions. You may face some errors while doing this.
 
-![](https://i.imgur.com/2CqhSB2.png)
+![](/images/ether/2CqhSB2.png)
 
-![](https://i.imgur.com/aDliypm.png)
+![](/images/ether/aDliypm.png)
 
 Just remember to do it real slow. We have to call this button 10 times to clear the level. Slowly but surely it will work.
 
-![](https://i.imgur.com/7KKE7pI.png)
+![](/images/ether/7KKE7pI.png)
 
 The lesson in this challenge was that , there isn't any native way to produce true random numbers in solidity yet, because all the data and variables are visible to everyone. The author recommends  Chainlink VRF, Bitcoin block headers (verified through BTC Relay), RANDAO, or Oraclize to generate random numbers.
 
@@ -415,7 +415,7 @@ Pretty straight forward, I create an interface of the level's contract and then 
 
 Since tx.origin and msg.sender may represent two different addresses, It can be used to perform phishing attacks. Note from author:
 
-![](https://i.imgur.com/GfEjlns.png)
+![](/images/ether/GfEjlns.png)
 
 # Token
 
@@ -461,7 +461,7 @@ Half of my work was done. I knew what I had to do. This challenge was about over
 
 In this one we had to underflow the amount in our balance so that it turns around and goes to the max amount possible. I checked the balances in both my account and the level's account first.
 
-![](https://i.imgur.com/JiQUEHT.png)
+![](/images/ether/JiQUEHT.png)
 
 We have a clue already. We have 20 and the level has 20999980 tokens. I knew I had to transfer some wierd amount somewhere. Just didn't know to who and how much. from the hint is looks like we need to send it to the level's Instance and now it was a matter of how much. I did some tests by creating a contract in Remix IDE to see how underflow and overflow worked in solifity.
 
@@ -479,7 +479,7 @@ The output was just as I predicted it. I had near infinite tokens now. I knew wh
 
 Here is how I solved the challenge.
 
-![](https://i.imgur.com/OXoWXvQ.png)
+![](/images/ether/OXoWXvQ.png)
 
 We can see that our balance increased way more than rather than decreasing to -1. So cool!
 
