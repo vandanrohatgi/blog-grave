@@ -1,6 +1,12 @@
 import urllib.request
 import re
 
+"""
+A quick script I wrote to fetch the image URLs in my blogs, save them and refer them in the blog content. 
+This was done because imgur has stopped working as a content provider.
+
+"""
+
 def save_image(url,path):
     url=url[4:-1]
     urllib.request.urlretrieve(url,filename=path.split('(')[1][1:-1])
