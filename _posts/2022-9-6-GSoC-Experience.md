@@ -33,7 +33,7 @@ The idea which I chose, had the most competition. Later I found that the only re
 
 After all the initial stuff was out of the way, I was just waiting for the announcement from google about the selected projects. I was greeted with a rejection mail at 6:00 AM in the morning. But the thing was, I gave everything I had for this so I didn't have any regrets (like I didn't work hard enough). I accepted my fate and thought about the next steps. 
 
-I got to know that there was a miscommunication in the org admins and mentors and my proposal was not ranked, which is a step that needed to be done for proposals to be selected. I thank my stars that I had some really hard working mentors who got this issue resolved over night and just like that, I was back in the game!
+I got to know that there was a miscommunication in the org admins and mentors and my proposal was not ranked, which is a step that was needed to be done for proposals to be selected. I thank my stars that I had some really hard working mentors who got this issue resolved over night and just like that, I was back in the game!
 
 ### GSoC
 
