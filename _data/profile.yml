@@ -1,19 +1,19 @@
 - caption: E-mail
-  href: mailto:vandanrohatgi@gmail.com
+  href: mailto:
   icon: entypo/email.svg
 - caption: Github
-  href: https://github.com/vandanrohatgi
+  href: https://github.com/
   icon: entypo/github.svg
 
 - caption: Linkedin
-  href: https://linkedin.com/in/vandan-rohatgi-352376180
+  href: https://linkedin.com/in/
   icon: entypo/linkedin.svg
 
-- caption: Delhi, India
-  href: https://goo.gl/maps/XcEKLbimsHGSmZ147
+- caption: 
+  href: 
   icon: entypo/location-pin.svg
 
 - caption: Hackthebox
-  href: https://www.hackthebox.eu/profile/242038
+  href: https://www.hackthebox.eu/profile/
   icon: entypo/box.svg
 
