@@ -4,4 +4,4 @@ Here is the grave of Vandan's past blogs. Vandan promised to write a blog per we
 
 For now I'm archiving this repo, If I ever feel the urge to write again, you'll find it here... amongst my precious pinned repositories. 
 
-To read the past blogs just click on the "Blogs" folder.
+To read the past blogs just click on the [Blogs](Blogs/) folder.
